@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
   redSlider = findChild<QSlider*>("redSlider");
   greenSlider = findChild<QSlider*>("greenSlider");
   blueSlider = findChild<QSlider*>("blueSlider");
-  pointSizeSlider = findChild<QSlider*>("pointSizeSlider");
 
   xDspl = findChild<QLCDNumber*>("xDisplay");
   yDspl = findChild<QLCDNumber*>("yDisplay");
@@ -43,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
   redDspl = findChild<QLCDNumber*>("redDisplay");
   greenDspl = findChild<QLCDNumber*>("greenDisplay");
   blueDspl = findChild<QLCDNumber*>("blueDisplay");
-  pointSizeDspl = findChild<QLCDNumber*>("pointSizeDisplay");
 
   fileGenerationBtn = findChild<QPushButton*>("fileGenerationButton");
   lidarConnectButton = findChild<QPushButton*>("connectButton");
@@ -87,9 +85,6 @@ void MainWindow::init() {
   blueSlider->setMaximum(255);
   blueSlider->setMinimum(0);
 
-  pointSizeSlider->setMaximum(10);
-  pointSizeSlider->setMinimum(0);
-
   connect (xSlider, SIGNAL (valueChanged (int)), this, SLOT (xSliderValueChanged (int)));
   connect (ySlider, SIGNAL (valueChanged (int)), this, SLOT (ySliderValueChanged (int)));
   connect (zSlider, SIGNAL (valueChanged (int)), this, SLOT (zSliderValueChanged (int)));
@@ -99,14 +94,10 @@ void MainWindow::init() {
   connect (redSlider, SIGNAL (valueChanged (int)), this, SLOT (redSliderValueChanged (int)));
   connect (greenSlider, SIGNAL (valueChanged (int)), this, SLOT (greenSliderValueChanged (int)));
   connect (blueSlider, SIGNAL (valueChanged (int)), this, SLOT (blueSliderValueChanged (int)));
-  connect (pointSizeSlider, SIGNAL (valueChanged (int)), this, SLOT (pointSizeSliderValueChanged (int)));
 
   connect(menuBar, SIGNAL(triggered(QAction*)), this, SLOT(trigerMenu(QAction*)));
-
   connect (fileGenerationBtn,  SIGNAL (clicked ()), this, SLOT (fileGenerationButtonPressed ()));
-
   connect (lidarConnectButton,  SIGNAL (clicked ()), this, SLOT (lidarConnectButtonPressed ()));
-
   connect (lidarDisconnectButton,  SIGNAL (clicked ()), this, SLOT (lidarDisconnectButtonPressed ()));
 }
 
@@ -155,7 +146,6 @@ void MainWindow::trigerMenu(QAction* act) {
     lidarInfo.red = 0;
     lidarInfo.green = 0;
     lidarInfo.blue = 0;
-    lidarInfo.pointSize = 0;
     updateConfig(lidarInfo);
     lidars.insert( std::pair<std::string, CLidarInfo>(config.name, lidarInfo) );
     QAction *lidarAction = new QAction(this);
@@ -184,7 +174,6 @@ void MainWindow::updateConfig(CLidarInfo lidarConfig) {
   redSlider->setValue(lidarConfig.red);
   greenSlider->setValue(lidarConfig.green);
   blueSlider->setValue(lidarConfig.blue);
-  pointSizeSlider->setValue(lidarConfig.pointSize);
 
   xDspl->display(lidarConfig.x);
   yDspl->display(lidarConfig.y);
@@ -195,7 +184,6 @@ void MainWindow::updateConfig(CLidarInfo lidarConfig) {
   redDspl->display(lidarConfig.red);
   greenDspl->display(lidarConfig.green);
   blueDspl->display(lidarConfig.blue);
-  pointSizeDspl->display(lidarConfig.pointSize);
 }
 
 void MainWindow::xSliderValueChanged(int value) {
@@ -250,11 +238,6 @@ void MainWindow::blueSliderValueChanged(int value) {
   blueDspl->display(value);
   lidars.find(currentLidarName->text().toStdString())->second.blue = value;
   colorUpdate();
-}
-
-void MainWindow::pointSizeSliderValueChanged(int value) {
-  pointSizeDspl->display(value);
-  lidars.find(currentLidarName->text().toStdString())->second.pointSize = value;
 }
 
 void MainWindow::colorUpdate() {

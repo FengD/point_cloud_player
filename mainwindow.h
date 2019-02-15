@@ -39,7 +39,6 @@ struct CLidarInfo {
   int red;
   int green;
   int blue;
-  int pointSize;
   PointCloudT cloud;
   CLidarInfo() {
       memset(this, 0, sizeof(CLidarInfo));
@@ -62,8 +61,8 @@ private:
 
   QLabel *currentLidarName, *currentLidarIp, *currentLidarPort, *currentLidarModel, *currentLidarType;
 
-  QSlider *xSlider, *ySlider, *zSlider, *rollSlider, *pitchSlider, *yawSlider, *redSlider, *greenSlider, *blueSlider, *pointSizeSlider;
-  QLCDNumber *xDspl, *yDspl, *zDspl, *rollDspl, *pitchDspl, *yawDspl, *redDspl, *greenDspl, *blueDspl, *pointSizeDspl;
+  QSlider *xSlider, *ySlider, *zSlider, *rollSlider, *pitchSlider, *yawSlider, *redSlider, *greenSlider, *blueSlider;
+  QLCDNumber *xDspl, *yDspl, *zDspl, *rollDspl, *pitchDspl, *yawDspl, *redDspl, *greenDspl, *blueDspl;
 
   QPushButton *fileGenerationBtn, *lidarConnectButton, *lidarDisconnectButton;
 
@@ -104,7 +103,6 @@ private slots:
   void redSliderValueChanged(int value);
   void greenSliderValueChanged(int value);
   void blueSliderValueChanged(int value);
-  void pointSizeSliderValueChanged(int value);
 
   void fileGenerationButtonPressed();
   void lidarConnectButtonPressed();
