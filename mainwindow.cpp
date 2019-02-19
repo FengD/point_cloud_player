@@ -1,9 +1,11 @@
+#include "mainwindow.h"
 #include <fstream>
 #include <iostream>
 #include <math.h>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "mainwindow.h"
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -151,7 +153,8 @@ void MainWindow::trigerMenu(QAction* act) {
     QAction *lidarAction = new QAction(this);
     lidarAction->setText(config.name.c_str());
     menuSecond->addAction(lidarAction);
-    Lidar lidar(config.ip, config.port, config.model, config.returnType, config.correctionFilePath, boost::bind(&MainWindow::lidarCallback, this, _1, _2));
+
+    Lidar lidar(config.ip, config.port, config.model, config.returnType, config.correctionFilePath, config.name, boost::bind(&MainWindow::lidarCallback, this, _1, _2, _3));
     lidarDevices.insert( std::pair<std::string, Lidar>(config.name, lidar) );
   } else if (lidars.find(act->text().toStdString()) != lidars.end()) {
     CLidarInfo currentLidar = lidars.find(act->text().toStdString())->second;
@@ -302,13 +305,13 @@ pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr MainWindow::getCloud(CLidarInfo curr
   return filtered;
 }
 
-void MainWindow::lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp) {
+void MainWindow::lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName) {
   (void) timestamp;
-  pcl::copyPointCloud(*cloud, lidars.find(currentLidarName->text().toStdString())->second.cloud);
-  for (size_t i = 0; i < lidars.find(currentLidarName->text().toStdString())->second.cloud.size (); i++) {
-    lidars.find(currentLidarName->text().toStdString())->second.cloud.points[i].r = lidars.find(currentLidarName->text().toStdString())->second.red;
-    lidars.find(currentLidarName->text().toStdString())->second.cloud.points[i].g = lidars.find(currentLidarName->text().toStdString())->second.green;
-    lidars.find(currentLidarName->text().toStdString())->second.cloud.points[i].b = lidars.find(currentLidarName->text().toStdString())->second.blue;
+  pcl::copyPointCloud(*cloud, lidars.find(deviceName)->second.cloud);
+  for (size_t i = 0; i < lidars.find(deviceName)->second.cloud.size (); i++) {
+    lidars.find(deviceName)->second.cloud.points[i].r = lidars.find(deviceName)->second.red;
+    lidars.find(deviceName)->second.cloud.points[i].g = lidars.find(deviceName)->second.green;
+    lidars.find(deviceName)->second.cloud.points[i].b = lidars.find(deviceName)->second.blue;
   }
   cloudDisplayUpdate();
 }

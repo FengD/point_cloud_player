@@ -2,9 +2,12 @@
 
 namespace lidar_driver {
 
-  Driver::Driver(std::string deviceIp, int dataPort, std::string model, int mode, std::string correctionfile, boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp)> lidarCallback) {
+  Driver::Driver(std::string deviceIp, int dataPort, std::string model, int mode, std::string correctionfile, std::string deviceName,
+                 boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName)> lidarCallback) {
     // init the udp input
     input_.reset(new Input(deviceIp, dataPort));
+
+    deviceName_ = deviceName;
     // init bool
     continueLidarRecvThread = false;
     continueLidarProcessThread = false;
@@ -30,9 +33,9 @@ namespace lidar_driver {
     // assignment callback
     userLidarCallback = lidarCallback;
     // init semophore
-    sem_init(&lidarSem, 0, 0);
+    sem_init(&lidarSem_, 0, 0);
     // init lock
-    pthread_mutex_init(&lidarLock, NULL);
+    pthread_mutex_init(&lidarLock_, NULL);
   }
 
   Driver::~Driver() {
@@ -45,8 +48,6 @@ namespace lidar_driver {
     continueLidarProcessThread = true;
     lidarRecvThread = new boost::thread(boost::bind(&Driver::lidarPacketRecvFn, this));
     lidarProcessThread = new boost::thread(boost::bind(&Driver::processLidarPacketFn, this));
-    // lidarProcessThread->join();
-    // lidarRecvThread->join();
   }
 
   void Driver::stop() {
@@ -82,12 +83,12 @@ namespace lidar_driver {
   }
 
   void Driver::pushLidarData(Packet pkt) {
-    pthread_mutex_lock(&lidarLock);
+    pthread_mutex_lock(&lidarLock_);
     lidarPacketList.push_back(pkt);
     if (lidarPacketList.size() > 6) {
-        sem_post(&lidarSem);
+        sem_post(&lidarSem_);
     }
-    pthread_mutex_unlock(&lidarLock);
+    pthread_mutex_unlock(&lidarLock_);
   }
 
   void Driver::processLidarPacketFn() {
@@ -102,13 +103,13 @@ namespace lidar_driver {
         }
 
         ts.tv_sec += 1;
-        if (sem_timedwait(&lidarSem, &ts) == -1) {
+        if (sem_timedwait(&lidarSem_, &ts) == -1) {
             continue;
         }
-        pthread_mutex_lock(&lidarLock);
+        pthread_mutex_lock(&lidarLock_);
       Packet packet = lidarPacketList.front();
       lidarPacketList.pop_front();
-        pthread_mutex_unlock(&lidarLock);
+        pthread_mutex_unlock(&lidarLock_);
 
       int ret = rawData_->unpack(*outMsg, packet.data);
       lastTimestamp = rawData_->getPointCloudTimestamp(packet.data);
@@ -116,7 +117,7 @@ namespace lidar_driver {
         outMsg->height = 1;
       if(ret == 1 && outMsg->points.size() > 0) {
         if (userLidarCallback) {
-          userLidarCallback(outMsg, lastTimestamp);
+          userLidarCallback(outMsg, lastTimestamp, deviceName_);
         }
         outMsg->clear();
       }

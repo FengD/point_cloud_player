@@ -90,7 +90,7 @@ private:
 
   void colorUpdate();
 
-  void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp);
+  void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName);
 
 private slots:
   void trigerMenu(QAction* act);

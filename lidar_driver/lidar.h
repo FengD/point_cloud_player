@@ -15,7 +15,9 @@
 
 class Lidar {
 public:
-  Lidar(std::string deviceIp, int dataPort, std::string lidarModel, int mode, std::string correctionFilePath, boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp)> lidarCallback);
+  Lidar(std::string deviceIp, int dataPort, std::string lidarModel, int mode,
+        std::string correctionFilePath, std::string deviceName,
+        boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName)> lidarCallback);
 
 	~Lidar();
 

@@ -37,7 +37,7 @@ namespace lidar_driver {
     * @param {string} the path of the correction file, if it is empty the default value will be used
     * @param {methode} callback
     */
-    Driver(std::string deviceIp, int dataPort, std::string model, int mode, std::string correctionfile, boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp)> lidarCallback);
+    Driver(std::string deviceIp, int dataPort, std::string model, int mode, std::string correctionfile, std::string deviceName, boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName)> lidarCallback);
 
     /**
     * destructor
@@ -68,17 +68,19 @@ namespace lidar_driver {
     // udp process object
     boost::shared_ptr<RawData> rawData_;
     // the mutex lock of the lidar list
-    pthread_mutex_t lidarLock;
+    pthread_mutex_t lidarLock_;
     // the semophore of the lidar packets receiver
-    sem_t lidarSem;
+    sem_t lidarSem_;
+    // name of the lidar
+    std::string deviceName_;
     // is the threads run
     bool continueLidarRecvThread;
     bool continueLidarProcessThread;
     // callback of the point cloud
-    boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp)> userLidarCallback;
+    boost::function<void(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName)> userLidarCallback;
     // the two threads
     boost::thread *lidarRecvThread;
-      boost::thread *lidarProcessThread;
+    boost::thread *lidarProcessThread;
     /*
     * @brief the function of the lidarRecvThread
     */
