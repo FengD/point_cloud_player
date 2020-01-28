@@ -1,2 +1,5 @@
 *.o
 *.yaml
+Makefile
+ui_*
+moc_*
