@@ -12,7 +12,7 @@
 #include <QLCDNumber>
 #include <QLabel>
 #include <map>
-#include <pcl/visualization/cloud_viewer.h>
+#include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/common/common.h>
@@ -20,6 +20,7 @@
 #include "addlidardialog.h"
 #include "lidar_driver/driver.h"
 #include "lidar_driver/lidar.h"
+#include "QVTKWidget.h"
 
 typedef pcl::PointXYZRGB PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
@@ -55,6 +56,8 @@ public:
 private:
   Ui::MainWindow *ui;
 
+  QVTKWidget *cloudViewer;
+
   QMenuBar *menuBar;
   QMenu *menuFirst, *menuSecond;
   QAction *actionAddLidar;
@@ -68,7 +71,7 @@ private:
 
   QDialog *addLidarDialog;
 
-  pcl::visualization::CloudViewer *viewer;
+  pcl::visualization::PCLVisualizer *viewer;
 
   PointCloudT cloudDisplay;
 

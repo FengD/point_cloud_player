@@ -23,8 +23,12 @@ LIBS += -lboost_system \
         -lpcl_io \
         -lpcl_kdtree \
         -lpcl_search \
+        -lvtkGUISupportQt-7.1 \
         -lvtkCommonCore-7.1 \
-        -L/home/ding/Libraries/VTK-7.1.1/build/lib/ -lQVTKWidgetPlugin
+        -lvtkRenderingCore-7.1 \
+        -lvtkCommonDataModel-7.1 \
+        -lvtkCommonMath-7.1
+
 
 INCLUDEPATH += /usr/local/include/pcl-1.8 \
                /usr/include/eigen3 \

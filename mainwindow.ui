@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>841</width>
-    <height>716</height>
+    <width>970</width>
+    <height>549</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
-      <width>201</width>
-      <height>101</height>
+      <y>190</y>
+      <width>171</width>
+      <height>81</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_4">
@@ -91,8 +91,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>201</width>
-      <height>231</height>
+      <width>171</width>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
@@ -222,8 +222,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>570</y>
-      <width>201</width>
+      <y>400</y>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -235,8 +235,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>379</y>
-      <width>201</width>
+      <y>280</y>
+      <width>171</width>
       <height>111</height>
      </rect>
     </property>
@@ -317,8 +317,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>620</y>
-      <width>91</width>
+      <y>450</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -329,9 +329,9 @@
    <widget class="QPushButton" name="disconnectButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>620</y>
-      <width>91</width>
+      <x>100</x>
+      <y>450</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -339,13 +339,13 @@
      <string>Disconnect</string>
     </property>
    </widget>
-   <widget class="QVTKWidget" name="qvtkWidget">
+   <widget class="QVTKWidget" name="cloudView">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>190</x>
       <y>10</y>
-      <width>601</width>
-      <height>481</height>
+      <width>771</width>
+      <height>471</height>
      </rect>
     </property>
    </widget>
@@ -355,7 +355,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>841</width>
+     <width>970</width>
      <height>22</height>
     </rect>
    </property>

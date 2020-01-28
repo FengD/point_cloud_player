@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include "vtkRenderWindow.h"
 #include "ui_mainwindow.h"
 //
 //
@@ -24,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  viewer = new pcl::visualization::CloudViewer("Display");
+  cloudViewer = findChild<QVTKWidget*>("cloudView");
+  viewer = new pcl::visualization::PCLVisualizer();
 
   menuBar = findChild<QMenuBar*>("actionMenuBar");
   menuFirst = findChild<QMenu*>("menuFirst");
@@ -68,6 +70,10 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::init() {
+  vtkSmartPointer<vtkRenderWindow> renderWindow = viewer->getRenderWindow();
+  cloudViewer->SetRenderWindow(renderWindow);
+  viewer->addCoordinateSystem();
+
   xSlider->setMaximum(2000);
   xSlider->setMinimum(-2000);
   xSlider->setTickPosition(QSlider::TickPosition(0));
@@ -112,40 +118,40 @@ void MainWindow::init() {
   connect (fileGenerationBtn,  SIGNAL (clicked ()), this, SLOT (fileGenerationButtonPressed ()));
   connect (lidarConnectButton,  SIGNAL (clicked ()), this, SLOT (lidarConnectButtonPressed ()));
   connect (lidarDisconnectButton,  SIGNAL (clicked ()), this, SLOT (lidarDisconnectButtonPressed ()));
-  addGroudInViewer();
+  // addGroudInViewer();
 }
 
-void MainWindow::addGroudInViewer() {
-  pcl::PointCloud<pcl::PointXYZRGB> ground;
-  pcl::PointXYZRGB p;
-  float x = -50.0;
-  float y = -50.0;
-  for(int i = 0; i < 101; i++) {
-    for(int j = 0; j < 101; j++) {
-      p.x = x + i;
-      p.y = y + j;
-      p.z = 0.0;
-
-      p.r = 255;
-      p.g = 255;
-      p.b = 255;
-
-      if ((j == 50 || j == 49 || j == 51) && i >= 50) {
-        p.r = 255;
-        p.g = 0;
-        p.b = 0;
-      }
-
-      if ((i == 50 || i == 49 || i == 51) && j >= 50) {
-        p.r = 0;
-        p.g = 255;
-        p.b = 0;
-      }
-      ground.points.push_back(p);
-    }
-  }
-  viewer->showCloud(ground.makeShared(), "ground");
-}
+// void MainWindow::addGroudInViewer() {
+//   pcl::PointCloud<pcl::PointXYZRGB> ground;
+//   pcl::PointXYZRGB p;
+//   float x = -50.0;
+//   float y = -50.0;
+//   for(int i = 0; i < 101; i++) {
+//     for(int j = 0; j < 101; j++) {
+//       p.x = x + i;
+//       p.y = y + j;
+//       p.z = 0.0;
+//
+//       p.r = 255;
+//       p.g = 255;
+//       p.b = 255;
+//
+//       if ((j == 50 || j == 49 || j == 51) && i >= 50) {
+//         p.r = 255;
+//         p.g = 0;
+//         p.b = 0;
+//       }
+//
+//       if ((i == 50 || i == 49 || i == 51) && j >= 50) {
+//         p.r = 0;
+//         p.g = 255;
+//         p.b = 0;
+//       }
+//       ground.points.push_back(p);
+//     }
+//   }
+//   viewer->showCloud(ground.makeShared(), "ground");
+// }
 
 void MainWindow::trigerMenu(QAction* act) {
   if(act->text() == "Add Lidar") {
@@ -335,7 +341,11 @@ void MainWindow::cloudDisplayUpdate() {
   for(iter = lidars.begin(); iter != lidars.end(); iter++) {
     cloudDisplay += *getCloud(iter->second);
   }
-  viewer->showCloud(cloudDisplay.makeShared());
+
+  viewer->removeAllPointClouds();
+  viewer->addPointCloud(cloudDisplay.makeShared(), "all");
+  viewer->updatePointCloud(cloudDisplay.makeShared(), "all");
+  viewer->spinOnce(0.0000000000001);
 }
 
 pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr MainWindow::getCloud(CLidarInfo currentLidar) const {
