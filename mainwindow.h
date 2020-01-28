@@ -92,6 +92,7 @@ private:
 
   void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName);
 
+  void addGroudInViewer();
 private slots:
   void trigerMenu(QAction* act);
   void xSliderValueChanged(int value);

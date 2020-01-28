@@ -7,6 +7,17 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include "ui_mainwindow.h"
+//
+//
+// static void addGroundInViewer(pcl::visualization::PCLVisualizer& viewer) {
+//
+//   // viewer.setBackgroundColor(1.0f, 0.5f, 1.0f);
+// 	// pcl::PointXYZ o;
+// 	// o.x = 0.0;
+// 	// o.y = 0;
+// 	// o.z = 0;
+// 	// viewer.addSphere(o, 0.25, "Sphere", 0);
+// }
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -101,6 +112,39 @@ void MainWindow::init() {
   connect (fileGenerationBtn,  SIGNAL (clicked ()), this, SLOT (fileGenerationButtonPressed ()));
   connect (lidarConnectButton,  SIGNAL (clicked ()), this, SLOT (lidarConnectButtonPressed ()));
   connect (lidarDisconnectButton,  SIGNAL (clicked ()), this, SLOT (lidarDisconnectButtonPressed ()));
+  addGroudInViewer();
+}
+
+void MainWindow::addGroudInViewer() {
+  pcl::PointCloud<pcl::PointXYZRGB> ground;
+  pcl::PointXYZRGB p;
+  float x = -50.0;
+  float y = -50.0;
+  for(int i = 0; i < 101; i++) {
+    for(int j = 0; j < 101; j++) {
+      p.x = x + i;
+      p.y = y + j;
+      p.z = 0.0;
+
+      p.r = 255;
+      p.g = 255;
+      p.b = 255;
+
+      if ((j == 50 || j == 49 || j == 51) && i >= 50) {
+        p.r = 255;
+        p.g = 0;
+        p.b = 0;
+      }
+
+      if ((i == 50 || i == 49 || i == 51) && j >= 50) {
+        p.r = 0;
+        p.g = 255;
+        p.b = 0;
+      }
+      ground.points.push_back(p);
+    }
+  }
+  viewer->showCloud(ground.makeShared(), "ground");
 }
 
 void MainWindow::trigerMenu(QAction* act) {
@@ -209,19 +253,19 @@ void MainWindow::zSliderValueChanged(int value) {
 
 void MainWindow::rollSliderValueChanged(int value) {
   rollDspl->display(value * 0.01);
-  lidars.find(currentLidarName->text().toStdString())->second.roll = value * 0.01;
+  lidars.find(currentLidarName->text().toStdString())->second.roll = value * 0.01 * M_PI / 180.0;
   cloudDisplayUpdate();
 }
 
 void MainWindow::pitchSliderValueChanged(int value) {
   pitchDspl->display(value * 0.01);
-  lidars.find(currentLidarName->text().toStdString())->second.pitch = value * 0.01;
+  lidars.find(currentLidarName->text().toStdString())->second.pitch = value * 0.01 * M_PI / 180.0;
   cloudDisplayUpdate();
 }
 
 void MainWindow::yawSliderValueChanged(int value) {
   yawDspl->display(value * 0.01);
-  lidars.find(currentLidarName->text().toStdString())->second.yaw = value * 0.01;
+  lidars.find(currentLidarName->text().toStdString())->second.yaw = value * 0.01 * M_PI / 180.0;
   cloudDisplayUpdate();
 }
 

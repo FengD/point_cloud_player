@@ -11,9 +11,24 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = lidar_calibration
 TEMPLATE = app
 
+CONFIG += static
+
 QMAKE_CXXFLAGS += -std=c++14
 
-LIBS += -lboost_system -lboost_filesystem -lboost_thread -lpcl_visualization -lpcl_common
+LIBS += -lboost_system \
+        -lboost_filesystem \
+        -lboost_thread \
+        -lpcl_visualization \
+        -lpcl_common \
+        -lpcl_io \
+        -lpcl_kdtree \
+        -lpcl_search \
+        -lvtkCommonCore-7.1 \
+        -L/home/ding/Libraries/VTK-7.1.1/build/lib/ -lQVTKWidgetPlugin
+
+INCLUDEPATH += /usr/local/include/pcl-1.8 \
+               /usr/include/eigen3 \
+               /usr/local/include/vtk-7.1
 
 SOURCES += main.cpp \
     mainwindow.cpp \

@@ -51,6 +51,9 @@ namespace lidar_driver {
     my_addr.sin_family = AF_INET;            // host byte order
     my_addr.sin_port = htons(port);          // port in network byte order
     my_addr.sin_addr.s_addr = INADDR_ANY;    // automatically fill in my IP
+
+
+
     // used for multipule lidar
     int opt = 1;
     setsockopt( sockfd_, SOL_SOCKET, SO_REUSEADDR, (const void *)&opt, sizeof(opt) );
@@ -64,6 +67,18 @@ namespace lidar_driver {
       perror("non-block");
       return;
     }
+
+    // struct ip_mreq mreq;
+    // mreq.imr_multiaddr.s_addr = inet_addr("224.0.10.0");
+    // mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    // if (
+    //     setsockopt(
+    //         sockfd_, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*) &mreq, sizeof(mreq)
+    //     ) < 0
+    // ){
+    //     perror("setsockopt");
+    //     return;
+    // }
   }
 
   /** @brief destructor */

@@ -121,7 +121,6 @@ namespace lidar_driver {
     float z_lidar_coordinate = distance2z;
     // float y_lidar_coordinate = cos(OFFSET_A) * distance2xyPlane * angle_horizontal_cos + sin(OFFSET_A) * distance2z;
     // float z_lidar_coordinate = -sin(OFFSET_A) * distance2xyPlane + cos(OFFSET_A) * distance2z;
-    // 坐标系变换pandar40的罗盘零度位于y轴正方向,电源接头方向,旋转后正前方为电源接线反方向
     point.x = -y_lidar_coordinate;
     point.y = x_lidar_coordinate;
     point.z = z_lidar_coordinate;
@@ -203,7 +202,8 @@ namespace lidar_driver {
     // the index of each start byte position of each channel in one block
     int index = startByte + channelCounter * 3 + blockCounter * BYTE_PAR_BLOCK;
     // decode the distance value from udp
-    float distance = (data[index] + (data[index + 1] << 8)) * 0.004;
+    float distance = (data[index] + (data[index + 1] << 8)) * 0.002;
+    std::cout << distance << std::endl;
     // decode the intensity value from udp
     float intensity = (data[index + 2]);
     // distance project on xy plane
@@ -224,9 +224,8 @@ namespace lidar_driver {
     float z_lidar_coordinate = distance2z;
     // float y_lidar_coordinate = cos(OFFSET_A) * distance2xyPlane * angle_horizontal_cos + sin(OFFSET_A) * distance2z;
     // float z_lidar_coordinate = -sin(OFFSET_A) * distance2xyPlane + cos(OFFSET_A) * distance2z;
-    // 坐标系变换pandar40的罗盘零度位于y轴正方向,电源接头方向,旋转后正前方为电源接线反方向
-    point.x = -y_lidar_coordinate;
-    point.y = x_lidar_coordinate;
+    point.x = y_lidar_coordinate;
+    point.y = -x_lidar_coordinate;
     point.z = z_lidar_coordinate;
     point.intensity = intensity;
 
