@@ -3,4 +3,4 @@
 Makefile
 ui_*
 moc_*
-lidar_calibration
+calibration_tool

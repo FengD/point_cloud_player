@@ -17,9 +17,9 @@
 #include <pcl/point_types.h>
 #include <pcl/common/common.h>
 #include <pcl/common/transforms.h>
-#include "addlidardialog.h"
-#include "lidar_driver/driver.h"
-#include "lidar_driver/lidar.h"
+#include "add_lidar_dialog.h"
+#include "driver.h"
+#include "lidar.h"
 #include "QVTKWidget.h"
 
 typedef pcl::PointXYZRGB PointT;

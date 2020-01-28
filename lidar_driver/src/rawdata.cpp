@@ -1,4 +1,4 @@
-#include "lidar_driver/rawdata.h"
+#include "rawdata.h"
 
 namespace lidar_driver {
   RawDataP40P::RawDataP40P() : RawData() {

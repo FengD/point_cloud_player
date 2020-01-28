@@ -1,4 +1,4 @@
-#include "lidar_driver/driver.h"
+#include "driver.h"
 
 namespace lidar_driver {
 

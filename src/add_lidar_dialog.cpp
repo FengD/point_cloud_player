@@ -1,8 +1,8 @@
-#include "addlidardialog.h"
+#include "add_lidar_dialog.h"
 #include <string.h>
 #include <iostream>
 #include <QFileDialog>
-#include "ui_addlidardialog.h"
+#include "ui_add_lidar_dialog.h"
 
 AddLidarDialog::AddLidarDialog(QWidget *parent) :
     QDialog(parent),

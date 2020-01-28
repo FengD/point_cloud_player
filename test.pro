@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = lidar_calibration
+TARGET = calibration_tool
 TEMPLATE = app
 
 CONFIG += static
@@ -30,24 +30,26 @@ LIBS += -lboost_system \
         -lvtkCommonMath-7.1
 
 
-INCLUDEPATH += /usr/local/include/pcl-1.8 \
+INCLUDEPATH += ./include \
+               ./lidar_driver/include \
+               /usr/local/include/pcl-1.8 \
                /usr/include/eigen3 \
                /usr/local/include/vtk-7.1
 
-SOURCES += main.cpp \
-    mainwindow.cpp \
-    addlidardialog.cpp \
-    lidar_driver/driver.cpp \
-    lidar_driver/input.cpp \
-    lidar_driver/rawdata.cpp \
-    lidar_driver/lidar.cpp
+SOURCES += src/main.cpp \
+    src/main_window.cpp \
+    src/add_lidar_dialog.cpp \
+    lidar_driver/src/driver.cpp \
+    lidar_driver/src/input.cpp \
+    lidar_driver/src/rawdata.cpp \
+    lidar_driver/src/lidar.cpp
 
-HEADERS += mainwindow.h \
-    addlidardialog.h \
-    lidar_driver/driver.h \
-    lidar_driver/input.h \
-    lidar_driver/rawdata.h \
-    lidar_driver/lidar.h
+HEADERS += include/main_window.h \
+    include/add_lidar_dialog.h \
+    lidar_driver/include/driver.h \
+    lidar_driver/include/input.h \
+    lidar_driver/include/rawdata.h \
+    lidar_driver/include/lidar.h
 
-FORMS += mainwindow.ui \
-    addlidardialog.ui
+FORMS += ui/main_window.ui \
+         ui/add_lidar_dialog.ui

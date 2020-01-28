@@ -22,7 +22,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/file.h>
-#include "lidar_driver/input.h"
+#include "input.h"
 
 namespace lidar_driver {
   ////////////////////////////////////////////////////////////////////////

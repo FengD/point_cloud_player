@@ -15,8 +15,8 @@
 #include <semaphore.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
-#include "lidar_driver/input.h"
-#include "lidar_driver/rawdata.h"
+#include "input.h"
+#include "rawdata.h"
 
 #define UDPPACKETSIZE (1500)
 

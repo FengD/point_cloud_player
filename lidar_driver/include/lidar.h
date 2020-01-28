@@ -11,7 +11,7 @@
 
 #include <string.h>
 #include <pthread.h>
-#include "lidar_driver/driver.h"
+#include "driver.h"
 
 class Lidar {
 public:

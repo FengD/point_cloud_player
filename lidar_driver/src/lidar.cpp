@@ -8,7 +8,7 @@
 
 #include <sys/wait.h>
 #include <stdlib.h>
-#include "lidar_driver/lidar.h"
+#include "lidar.h"
 
 Lidar::Lidar(std::string deviceIp, int dataPort, std::string lidarModel,
 						int mode, std::string correctionFilePath, std::string deviceName,
