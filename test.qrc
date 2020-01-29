@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/png">
+        <file>plugins/logo.png</file>
+        <file>plugins/next_frame.png</file>
+        <file>plugins/pause.png</file>
+        <file>plugins/play.png</file>
+        <file>plugins/previous_frame.png</file>
+        <file>plugins/save.png</file>
+    </qresource>
+</RCC>

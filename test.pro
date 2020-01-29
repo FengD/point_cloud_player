@@ -8,48 +8,59 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = calibration_tool
+TARGET = point_cloud_player
 TEMPLATE = app
 
 CONFIG += static
 
 QMAKE_CXXFLAGS += -std=c++14
 
-LIBS += -lboost_system \
-        -lboost_filesystem \
-        -lboost_thread \
-        -lpcl_visualization \
-        -lpcl_common \
-        -lpcl_io \
-        -lpcl_kdtree \
-        -lpcl_search \
-        -lvtkGUISupportQt-7.1 \
-        -lvtkCommonCore-7.1 \
-        -lvtkRenderingCore-7.1 \
-        -lvtkCommonDataModel-7.1 \
-        -lvtkCommonMath-7.1
+LIBS += \
+  -lboost_system \
+  -lboost_filesystem \
+  -lboost_thread \
+  -lpcl_visualization \
+  -lpcl_common \
+  -lpcl_io \
+  -lpcl_kdtree \
+  -lpcl_search \
+  -lvtkGUISupportQt-7.1 \
+  -lvtkCommonCore-7.1 \
+  -lvtkRenderingCore-7.1 \
+  -lvtkCommonDataModel-7.1 \
+  -lvtkCommonMath-7.1
 
 
-INCLUDEPATH += ./include \
-               ./lidar_driver/include \
-               /usr/local/include/pcl-1.8 \
-               /usr/include/eigen3 \
-               /usr/local/include/vtk-7.1
+INCLUDEPATH += \
+  include \
+  include/component \
+  lidar_driver/include \
+  /usr/local/include/pcl-1.8 \
+  /usr/include/eigen3 \
+  /usr/local/include/vtk-7.1
 
-SOURCES += src/main.cpp \
-    src/main_window.cpp \
-    src/add_lidar_dialog.cpp \
-    lidar_driver/src/driver.cpp \
-    lidar_driver/src/input.cpp \
-    lidar_driver/src/rawdata.cpp \
-    lidar_driver/src/lidar.cpp
+SOURCES += \
+  src/component/cloud_visualization.cpp \
+  src/main.cpp \
+  src/point_cloud_player_window.cpp \
+  src/add_dialog.cpp \
+  lidar_driver/src/driver.cpp \
+  lidar_driver/src/input.cpp \
+  lidar_driver/src/rawdata.cpp \
+  lidar_driver/src/lidar.cpp
 
-HEADERS += include/main_window.h \
-    include/add_lidar_dialog.h \
-    lidar_driver/include/driver.h \
-    lidar_driver/include/input.h \
-    lidar_driver/include/rawdata.h \
-    lidar_driver/include/lidar.h
+HEADERS += \
+  include/component/cloud_visualization.h \
+  include/point_cloud_player_window.h \
+  include/add_dialog.h \
+  lidar_driver/include/driver.h \
+  lidar_driver/include/input.h \
+  lidar_driver/include/rawdata.h \
+  lidar_driver/include/lidar.h
 
-FORMS += ui/main_window.ui \
-         ui/add_lidar_dialog.ui
+FORMS += \
+  ui/point_cloud_player_window.ui \
+  ui/add_dialog.ui
+
+RESOURCES += \
+    test.qrc

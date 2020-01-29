@@ -1,9 +1,10 @@
-#include "main_window.h"
+#include "point_cloud_player_window.h"
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
   QApplication application(argc, argv);
-  MainWindow mainWindow;
+  application.addLibraryPath("./plugins");
+  PointCloudPlayer mainWindow;
   mainWindow.show();
   return application.exec();
 }

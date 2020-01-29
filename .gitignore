@@ -3,4 +3,4 @@
 Makefile
 ui_*
 moc_*
-calibration_tool
+point_cloud_player
