@@ -24,6 +24,8 @@ LIBS += \
   -lpcl_io \
   -lpcl_kdtree \
   -lpcl_search \
+  -lpcap \
+  -lyaml-cpp \
   -lvtkGUISupportQt-7.1 \
   -lvtkCommonCore-7.1 \
   -lvtkRenderingCore-7.1 \
@@ -46,8 +48,10 @@ SOURCES += \
   src/add_dialog.cpp \
   lidar_driver/src/driver.cpp \
   lidar_driver/src/input.cpp \
-  lidar_driver/src/rawdata.cpp \
-  lidar_driver/src/lidar.cpp
+  lidar_driver/src/raw_data.cpp \
+  lidar_driver/src/lidars_action.cpp \
+  lidar_driver/src/lidars_creator_actioner.cpp \
+  lidar_driver/src/raw_data_factory.cpp
 
 HEADERS += \
   include/component/cloud_visualization.h \
@@ -55,8 +59,10 @@ HEADERS += \
   include/add_dialog.h \
   lidar_driver/include/driver.h \
   lidar_driver/include/input.h \
-  lidar_driver/include/rawdata.h \
-  lidar_driver/include/lidar.h
+  lidar_driver/include/raw_data.h \
+  lidar_driver/include/lidars_action.h \
+  lidar_driver/include/lidars_creator_actioner.h \
+  lidar_driver/include/raw_data_factory.h
 
 FORMS += \
   ui/point_cloud_player_window.ui \

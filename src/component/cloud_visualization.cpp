@@ -9,5 +9,5 @@ CloudVisualization::~CloudVisualization() {
 }
 
 void CloudVisualization::init() {
-  this->addCoordinateSystem();
+	this->addCoordinateSystem(1.0);
 }

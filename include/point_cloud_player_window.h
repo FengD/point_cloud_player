@@ -17,17 +17,21 @@
 #include <pcl/point_types.h>
 #include <pcl/common/common.h>
 #include <pcl/common/transforms.h>
-#include "driver.h"
-#include "lidar.h"
 #include "QVTKWidget.h"
 #include "cloud_visualization.h"
 #include "add_dialog.h"
 
-typedef pcl::PointXYZRGB PointT;
+typedef pcl::PointXYZI PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
 namespace Ui {
 class PointCloudPlayer;
+}
+
+namespace itd_lidar {
+namespace lidar_driver {
+class Driver;
+}
 }
 
 class PointCloudPlayer : public QMainWindow {
@@ -51,17 +55,20 @@ private:
   CloudVisualization *viewer;
   std::map<int, PointCloudT>  clouds;
   int currentCloudIndex;
+  int cloudLoadingIndex;
   int cloudsSize;
+  itd_lidar::lidar_driver::Driver *lidar;
 
   void init();
   void createPlaySpeedComboBox();
   void updateDisplay(const int &index);
   void addLidarAction(const CLidarConfig &config);
   void buttonsEnabled(const bool &isEnable);
+  void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp);
 
 private slots:
   void trigerMenu(QAction* act);
-  void playSliderValueChanged(const int &value);
+  void playSliderMoved(const int &value);
 
   void currentIndexChanged(const QString &text);
 

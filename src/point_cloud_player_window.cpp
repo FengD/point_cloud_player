@@ -6,8 +6,10 @@
 #include <QMessageBox>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <pcl/io/pcd_io.h>
 #include "vtkRenderWindow.h"
 #include "ui_point_cloud_player_window.h"
+#include "driver.h"
 
 PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
   QMainWindow(parent),
@@ -35,6 +37,7 @@ PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
   playSpeedComboBox = findChild<QComboBox*>("playSpeedComboBox");
   currentCloudIndex = -1;
   cloudsSize = -1;
+  cloudLoadingIndex = 0;
   init();
 }
 
@@ -43,10 +46,14 @@ PointCloudPlayer::~PointCloudPlayer() {
 }
 
 void PointCloudPlayer::init() {
+  viewer->setSize(cloudViewer->width(), cloudViewer->height());
   cloudViewer->SetRenderWindow(viewer->getRenderWindow());
+
   createPlaySpeedComboBox();
 
-  connect (playSlider, SIGNAL (valueChanged (const int &)), this, SLOT (playSliderValueChanged (const int &)));
+  connect (playSlider, SIGNAL (sliderMoved (const int &)), this, SLOT (playSliderMoved (const int &)));
+  // connect (playSlider, SIGNAL (sliderPressed (const int &)), this, SLOT (playSliderPressed (const int &)));
+  // connect (playSlider, SIGNAL (sliderReleased (const int &)), this, SLOT (playSliderReleased (const int &)));
 
   connect(menuBar, SIGNAL(triggered(QAction*)),
           this, SLOT(trigerMenu(QAction*)));
@@ -86,13 +93,15 @@ void PointCloudPlayer::trigerMenu(QAction* act) {
   }
 }
 
-void PointCloudPlayer::playSliderValueChanged(const int &value) {
-
+void PointCloudPlayer::playSliderMoved(const int &value) {
+  currentCloudIndex = value;
+  updateDisplay(value);
 }
 
 void PointCloudPlayer::saveButtonPressed() {
+  QString defaultFileName = QString("/%1").arg(clouds[currentCloudIndex].header.stamp);
   QString fileName = QFileDialog::getSaveFileName(this,
-    tr("Save Points"), "/", tr("Files (*pcd)"));
+    tr("Save Points"), defaultFileName, tr("Files (*pcd)"));
 
   if (fileName.isEmpty()) {
     return;
@@ -148,17 +157,41 @@ void PointCloudPlayer::repeatButtonPressed() {
 void PointCloudPlayer::currentIndexChanged(const QString &text) {}
 
 void PointCloudPlayer::updateDisplay(const int &index) {
-  frameNb->display(index);
+  frameNb->display(index + 1);
   playSlider->setValue(index);
+  viewer->updatePointCloud<pcl::PointXYZI>(clouds[index].makeShared(), "cloud");
+  viewer->spinOnce(0.0000000000001);
 }
 
 void PointCloudPlayer::addLidarAction(const CLidarConfig &config) {
-  std::cout << config << std::endl;
-  if (config.mode == 2) {
-    buttonsEnabled(true);
-  } else if (config.mode == 1) {
-    buttonsEnabled(false);
+  if (!lidar) {
+    lidar->Stop();
+    delete lidar;
+    std::map<int, PointCloudT> empty;
+    clouds.clear();
+    clouds.swap(empty);
+    cloudLoadingIndex = 0;
   }
+
+  std::string ip = config.ip;
+  std::string groupIp = "239.0.0.1";
+  int port = config.port;
+  std::string model = config.model;
+  int returnType = config.returnType;
+  float cutAngle = -1.0;
+  int direction = -1;
+  int version = -1;
+  std::vector<std::string> correctionFileList;
+
+  buttonsEnabled(false);
+
+  lidar = new itd_lidar::lidar_driver::Driver(
+    ip, groupIp, port, model,
+    returnType, direction, version,
+    correctionFileList, cutAngle,
+    boost::bind(&PointCloudPlayer::lidarCallback, this, _1, _2),
+    config.pcapFilePath);
+  lidar->Start();
 }
 
 void PointCloudPlayer::buttonsEnabled(const bool &isEnable) {
@@ -173,13 +206,17 @@ void PointCloudPlayer::buttonsEnabled(const bool &isEnable) {
   playSpeedComboBox->setEnabled(isEnable);
 }
 
-// void MainWindow::lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, double timestamp, std::string deviceName) {
-//   (void) timestamp;
-//   pcl::copyPointCloud(*cloud, lidars.find(deviceName)->second.cloud);
-//   for (size_t i = 0; i < lidars.find(deviceName)->second.cloud.size (); i++) {
-//     lidars.find(deviceName)->second.cloud.points[i].r = lidars.find(deviceName)->second.red;
-//     lidars.find(deviceName)->second.cloud.points[i].g = lidars.find(deviceName)->second.green;
-//     lidars.find(deviceName)->second.cloud.points[i].b = lidars.find(deviceName)->second.blue;
-//   }
-//   cloudDisplayUpdate();
-// }
+void PointCloudPlayer::lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp) {
+  clouds[++cloudLoadingIndex] = *cloud;
+  if (timestamp == -10) {
+    cloudLoadingIndex--;
+    playSlider->setMaximum(cloudLoadingIndex);
+    playSlider->setMinimum(1);
+    currentCloudIndex = 0;
+    cloudsSize = cloudLoadingIndex;
+    buttonsEnabled(true);
+    viewer->removeAllPointClouds();
+    viewer->addPointCloud<pcl::PointXYZI>(clouds[currentCloudIndex].makeShared(), "cloud");
+    updateDisplay(currentCloudIndex);
+  }
+}
