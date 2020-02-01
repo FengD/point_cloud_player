@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>838</width>
+    <width>820</width>
     <height>518</height>
    </rect>
   </property>
@@ -24,12 +24,12 @@
    </size>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QVTKWidget" name="cloudView">
+   <widget class="QVTKWidget" name="cloudViewer">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>801</width>
+      <x>0</x>
+      <y>0</y>
+      <width>821</width>
       <height>371</height>
      </rect>
     </property>
@@ -40,9 +40,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>250</x>
       <y>390</y>
-      <width>231</width>
+      <width>421</width>
       <height>31</height>
      </rect>
     </property>
@@ -71,16 +71,16 @@
      <rect>
       <x>10</x>
       <y>390</y>
-      <width>71</width>
+      <width>31</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>save</string>
+     <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../plugins/save.png</normaloff>../plugins/save.png</iconset>
+     <iconset resource="../build.qrc">
+      <normaloff>:/png/plugins/save.png</normaloff>:/png/plugins/save.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -108,18 +108,18 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>50</x>
       <y>390</y>
-      <width>71</width>
+      <width>31</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>play</string>
+     <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../plugins/play.png</normaloff>../plugins/play.png</iconset>
+     <iconset resource="../build.qrc">
+      <normaloff>:/png/plugins/play.png</normaloff>:/png/plugins/play.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -134,18 +134,18 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>90</x>
       <y>390</y>
-      <width>71</width>
+      <width>31</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>pause</string>
+     <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../plugins/pause.png</normaloff>../plugins/pause.png</iconset>
+     <iconset resource="../build.qrc">
+      <normaloff>:/png/plugins/pause.png</normaloff>:/png/plugins/pause.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -160,18 +160,18 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>130</x>
       <y>390</y>
-      <width>91</width>
+      <width>31</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>next</string>
+     <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../plugins/next_frame.png</normaloff>../plugins/next_frame.png</iconset>
+     <iconset resource="../build.qrc">
+      <normaloff>:/png/plugins/next_frame.png</normaloff>:/png/plugins/next_frame.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -186,18 +186,18 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>170</x>
       <y>390</y>
-      <width>91</width>
+      <width>31</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>previous</string>
+     <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../plugins/previous_frame.png</normaloff>../plugins/previous_frame.png</iconset>
+     <iconset resource="../build.qrc">
+      <normaloff>:/png/plugins/previous_frame.png</normaloff>:/png/plugins/previous_frame.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -212,7 +212,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>210</x>
       <y>390</y>
       <width>31</width>
       <height>31</height>
@@ -222,8 +222,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../plugins/repeat.png</normaloff>../plugins/repeat.png</iconset>
+     <iconset resource="../build.qrc">
+      <normaloff>:/png/plugins/repeat.png</normaloff>:/png/plugins/repeat.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -235,14 +235,30 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>380</y>
-      <width>801</width>
-      <height>16</height>
+      <x>0</x>
+      <y>370</y>
+      <width>821</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="loadingLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>430</y>
+      <width>231</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
@@ -251,7 +267,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>838</width>
+     <width>820</width>
      <height>22</height>
     </rect>
    </property>
@@ -259,26 +275,34 @@
     <property name="title">
      <string>Action</string>
     </property>
-    <addaction name="add"/>
-    <addaction name="help"/>
+    <addaction name="addAction"/>
+    <addaction name="helpAction"/>
    </widget>
    <addaction name="menuFirst"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
+    <enum>BottomToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="add">
+  <action name="addAction">
+   <property name="icon">
+    <iconset resource="../build.qrc">
+     <normaloff>:/png/plugins/add.png</normaloff>:/png/plugins/add.png</iconset>
+   </property>
    <property name="text">
     <string>Add</string>
    </property>
   </action>
-  <action name="help">
+  <action name="helpAction">
+   <property name="icon">
+    <iconset resource="../build.qrc">
+     <normaloff>:/png/plugins/help.png</normaloff>:/png/plugins/help.png</iconset>
+   </property>
    <property name="text">
     <string>Help</string>
    </property>
@@ -292,6 +316,8 @@
    <header>QVTKWidget.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../build.qrc"/>
+ </resources>
  <connections/>
 </ui>
