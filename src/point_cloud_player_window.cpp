@@ -36,7 +36,7 @@ void PointCloudPlayer::InitParam() {
   viewer_->setSize(ui_->cloudViewer->width(), ui_->cloudViewer->height());
   ui_->cloudViewer->SetRenderWindow(viewer_->getRenderWindow());
   CreatePlaySpeedComboBox();
-  buttonsEnabled(false);
+  ButtonsEnabled(false);
 }
 
 void PointCloudPlayer::InitSlotConnect() {
@@ -77,13 +77,13 @@ void PointCloudPlayer::trigerMenu(QAction* act) {
     if (ret == AddDialog::Rejected) {
       return;
     }
-    addLidarAction(addDialog.getLidarConfig());
+    AddLidarAction(addDialog.GetLidarConfig());
   }
 }
 
 void PointCloudPlayer::playSliderMoved(const int &value) {
   current_cloud_index_ = value;
-  updateDisplay(value);
+  UpdateDisplay(value);
 }
 
 void PointCloudPlayer::saveButtonPressed() {
@@ -125,7 +125,7 @@ void PointCloudPlayer::nextButtonPressed() {
   } else {
     ui_->nextBtn->setEnabled(false);
   }
-  updateDisplay(current_cloud_index_);
+  UpdateDisplay(current_cloud_index_);
 }
 
 void PointCloudPlayer::previousButtonPressed() {
@@ -135,7 +135,7 @@ void PointCloudPlayer::previousButtonPressed() {
   } else {
     ui_->previousBtn->setEnabled(false);
   }
-  updateDisplay(current_cloud_index_);
+  UpdateDisplay(current_cloud_index_);
 }
 
 void PointCloudPlayer::repeatButtonPressed() {
@@ -144,14 +144,14 @@ void PointCloudPlayer::repeatButtonPressed() {
 
 void PointCloudPlayer::currentIndexChanged(const QString &text) {}
 
-void PointCloudPlayer::updateDisplay(const int &index) {
+void PointCloudPlayer::UpdateDisplay(const int &index) {
   ui_->frameNb->display(index + 1);
   ui_->playSlider->setValue(index);
   viewer_->updatePointCloud<pcl::PointXYZI>(clouds_[index].makeShared(), "cloud");
   viewer_->spinOnce(0.0000000000001);
 }
 
-void PointCloudPlayer::addLidarAction(const CLidarConfig &config) {
+void PointCloudPlayer::AddLidarAction(const CLidarConfig &config) {
   if (NULL == lidar_) {
     std::cout << 123131 << std::endl;
     lidar_->Stop();
@@ -167,18 +167,18 @@ void PointCloudPlayer::addLidarAction(const CLidarConfig &config) {
   int version = -1;
   std::vector<std::string> correctionFileList;
 
-  buttonsEnabled(false);
+  ButtonsEnabled(false);
 
   lidar_ = new itd_lidar::lidar_driver::Driver(
     config.ip, config.groupIp, config.port, config.model,
     config.returnType, direction, version,
     correctionFileList, cutAngle,
-    boost::bind(&PointCloudPlayer::lidarCallback, this, _1, _2),
+    boost::bind(&PointCloudPlayer::LidarCallback, this, _1, _2),
     config.pcapFilePath);
   lidar_->Start();
 }
 
-void PointCloudPlayer::buttonsEnabled(const bool &isEnable) {
+void PointCloudPlayer::ButtonsEnabled(const bool &isEnable) {
   ui_->saveBtn->setEnabled(isEnable);
   ui_->playBtn->setEnabled(isEnable);
   ui_->pauseBtn->setEnabled(isEnable);
@@ -190,7 +190,7 @@ void PointCloudPlayer::buttonsEnabled(const bool &isEnable) {
   ui_->playSpeedComboBox->setEnabled(isEnable);
 }
 
-void PointCloudPlayer::lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp) {
+void PointCloudPlayer::LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp) {
   clouds_[++load_cloud_index_] = *cloud;
   if (timestamp == -10) {
     load_cloud_index_--;
@@ -198,9 +198,9 @@ void PointCloudPlayer::lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::Poin
     ui_->playSlider->setMinimum(1);
     current_cloud_index_ = 0;
     clouds_size_ = load_cloud_index_;
-    buttonsEnabled(true);
+    ButtonsEnabled(true);
     viewer_->removeAllPointClouds();
     viewer_->addPointCloud<pcl::PointXYZI>(clouds_[current_cloud_index_].makeShared(), "cloud");
-    updateDisplay(current_cloud_index_);
+    UpdateDisplay(current_cloud_index_);
   }
 }

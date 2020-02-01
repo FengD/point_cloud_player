@@ -4,12 +4,12 @@
 #ifndef POINT_CLOUD_PLAYER_WINDOW_H
 #define POINT_CLOUD_PLAYER_WINDOW_H
 
-#include <QMainWindow>
-#include <map>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/common/common.h>
 #include <pcl/common/transforms.h>
+#include <QMainWindow>
+#include <map>
 #include "add_dialog.h"
 
 typedef pcl::PointXYZI PointT;
@@ -45,13 +45,13 @@ class PointCloudPlayer : public QMainWindow {
   void InitParam();
   void InitSlotConnect();
   void CreatePlaySpeedComboBox();
-  void updateDisplay(const int &index);
-  void addLidarAction(const CLidarConfig &config);
-  void buttonsEnabled(const bool &isEnable);
-  void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud,
+  void UpdateDisplay(const int &index);
+  void AddLidarAction(const CLidarConfig &config);
+  void ButtonsEnabled(const bool &isEnable);
+  void LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud,
                      int timestamp);
 
- private slots:
+  private slots:
   void trigerMenu(QAction *act);
   void playSliderMoved(const int &value);
   void currentIndexChanged(const QString &text);

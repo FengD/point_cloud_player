@@ -54,6 +54,7 @@ struct CLidarConfig {
 
 class AddDialog : public QDialog {
   Q_OBJECT
+
  private:
   Ui::Add *ui;
   QButtonGroup *mode_group_;
@@ -67,9 +68,9 @@ class AddDialog : public QDialog {
  public:
   explicit AddDialog(QWidget *parent = 0);
   ~AddDialog();
-  CLidarConfig getLidarConfig();
+  CLidarConfig GetLidarConfig();
 
- private slots:
+  private slots:
   void ipUpdate(const QString &input);
   void portUpdate(const QString &input);
   void groupIpUpdate(const QString &input);

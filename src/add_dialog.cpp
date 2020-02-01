@@ -96,7 +96,7 @@ void AddDialog::groupIpUpdate(const QString &input) {
   lidar_config_.groupIp = input.toLatin1().data();
 }
 
-CLidarConfig AddDialog::getLidarConfig() {
+CLidarConfig AddDialog::GetLidarConfig() {
   return lidar_config_;
 }
 
