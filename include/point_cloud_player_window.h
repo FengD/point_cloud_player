@@ -20,12 +20,13 @@ class PointCloudPlayer;
 }
 
 namespace itd_lidar {
+class CloudVisualization;
 namespace lidar_driver {
 class Driver;
 }
 }
 
-class CloudVisualization;
+
 
 class PointCloudPlayer : public QMainWindow {
   Q_OBJECT
@@ -39,7 +40,7 @@ class PointCloudPlayer : public QMainWindow {
   int current_cloud_index_;
   int clouds_size_;
   int load_cloud_index_;
-  CloudVisualization *viewer_;
+  itd_lidar::CloudVisualization *viewer_;
   itd_lidar::lidar_driver::Driver *lidar_;
   std::map<int, PointCloudT>  clouds_;
 

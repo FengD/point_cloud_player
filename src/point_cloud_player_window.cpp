@@ -22,7 +22,7 @@ PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
   clouds_size_(-1),
   load_cloud_index_(0) {
   ui_->setupUi(this);
-  viewer_ = new CloudVisualization();
+  viewer_ = new itd_lidar::CloudVisualization();
   InitParam();
   InitSlotConnect();
 }
