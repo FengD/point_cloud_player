@@ -5,11 +5,11 @@
 #include <math.h>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <pcl/io/pcd_io.h>
 #include <fstream>
 #include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <pcl/io/pcd_io.h>
 #include "vtkRenderWindow.h"
 #include "ui_point_cloud_player_window.h"
 #include "cloud_visualization.h"
@@ -162,11 +162,6 @@ void PointCloudPlayer::addLidarAction(const CLidarConfig &config) {
     load_cloud_index_ = 0;
   }
 
-  std::string ip = config.ip;
-  std::string groupIp = "239.0.0.1";
-  int port = config.port;
-  std::string model = config.model;
-  int returnType = config.returnType;
   float cutAngle = -1.0;
   int direction = -1;
   int version = -1;
@@ -175,8 +170,8 @@ void PointCloudPlayer::addLidarAction(const CLidarConfig &config) {
   buttonsEnabled(false);
 
   lidar_ = new itd_lidar::lidar_driver::Driver(
-    ip, groupIp, port, model,
-    returnType, direction, version,
+    config.ip, config.groupIp, config.port, config.model,
+    config.returnType, direction, version,
     correctionFileList, cutAngle,
     boost::bind(&PointCloudPlayer::lidarCallback, this, _1, _2),
     config.pcapFilePath);

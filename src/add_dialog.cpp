@@ -30,12 +30,14 @@ void AddDialog::InitParam() {
 
   ui->portInput->setValidator(new QIntValidator(ui->portInput));
   ui->ipInput->setInputMask("000.000.000.000");
+  ui->groupIpInput->setInputMask("000.000.000.000");
 
   ui->correctionFileInput->setEnabled(false);
   ui->selectFileButton->setEnabled(false);
 
   lidar_config_.mode = 2;
   lidar_config_.ip = "192.168.8.201";
+  lidar_config_.groupIp = "239.0.0.1";
   lidar_config_.model = "VLP16";
   lidar_config_.port = 2368;
   lidar_config_.returnType = 0;
@@ -65,15 +67,17 @@ void AddDialog::CreateReturnTypeComboBox() {
 
 void AddDialog::InitSlotConnect() {
   connect(ui->ipInput, SIGNAL (textChanged(const QString &)),
-           this, SLOT (ipUpdate(const QString &)));
+          this, SLOT (ipUpdate(const QString &)));
   connect(ui->portInput, SIGNAL (textChanged(const QString &)),
-           this, SLOT (portUpdate(const QString &)));
+          this, SLOT (portUpdate(const QString &)));
+  connect(ui->groupIpInput, SIGNAL (textChanged(const QString &)),
+          this, SLOT (groupIpUpdate(const QString &)));
   connect(mode_group_, SIGNAL(buttonClicked(const int &)),
           this, SLOT(modeGroupButtonsClicked(const int &)));
   connect(ui->selectFileButton,  SIGNAL (clicked ()),
-           this, SLOT (selectFileButtonPressed ()));
+          this, SLOT (selectFileButtonPressed ()));
   connect(ui->pcapFileInputBtn,  SIGNAL (clicked ()),
-           this, SLOT (pcapFileInputButtonPressed ()));
+          this, SLOT (pcapFileInputButtonPressed ()));
   connect(ui->lidarModelBox, SIGNAL(currentIndexChanged(const QString &)),
           this, SLOT(lidarModelBoxChanged(const QString &)));
   connect(ui->returnTypeBox, SIGNAL(currentIndexChanged(const QString &)),
@@ -86,6 +90,10 @@ void AddDialog::ipUpdate(const QString &input) {
 
 void AddDialog::portUpdate(const QString &input) {
   lidar_config_.port = input.toInt();
+}
+
+void AddDialog::groupIpUpdate(const QString &input) {
+  lidar_config_.groupIp = input.toLatin1().data();
 }
 
 CLidarConfig AddDialog::getLidarConfig() {

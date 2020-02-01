@@ -48,7 +48,8 @@ class PointCloudPlayer : public QMainWindow {
   void updateDisplay(const int &index);
   void addLidarAction(const CLidarConfig &config);
   void buttonsEnabled(const bool &isEnable);
-  void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp);
+  void lidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud,
+                     int timestamp);
 
  private slots:
   void trigerMenu(QAction *act);

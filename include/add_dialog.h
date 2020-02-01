@@ -17,6 +17,7 @@ struct CLidarConfig {
   int mode;
   std::string pcapFilePath;
   std::string ip;
+  std::string groupIp;
   int port;
   std::string model;
   int returnType;
@@ -25,6 +26,7 @@ struct CLidarConfig {
     mode = config.mode;
     pcapFilePath = config.pcapFilePath;
     ip = config.ip;
+    groupIp = config.groupIp;
     port = config.port;
     model = config.model;
     returnType = config.returnType;
@@ -37,6 +39,7 @@ struct CLidarConfig {
     output << "mode: " << c.mode << std::endl;
     output << "pcapFilePath: " << c.pcapFilePath << std::endl;
     output << "ip: " << c.ip << std::endl;
+    output << "groupIp: " << c.groupIp << std::endl;
     output << "port: " << c.port << std::endl;
     output << "model: " << c.model << std::endl;
     output << "returnType: " << c.returnType << std::endl;
@@ -69,6 +72,7 @@ class AddDialog : public QDialog {
  private slots:
   void ipUpdate(const QString &input);
   void portUpdate(const QString &input);
+  void groupIpUpdate(const QString &input);
   void modeGroupButtonsClicked(const int &id);
   void selectFileButtonPressed();
   void pcapFileInputButtonPressed();
