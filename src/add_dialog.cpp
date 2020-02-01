@@ -1,3 +1,6 @@
+// Copyright (C) 2020 Feng DING, Hirain
+// License: Modified BSD Software License Agreement
+
 #include "add_dialog.h"
 #include <string.h>
 #include <iostream>
@@ -8,153 +11,125 @@ AddDialog::AddDialog(QWidget *parent) :
   QDialog(parent),
   ui(new Ui::Add) {
   ui->setupUi(this);
-
-  modeGroup = new QButtonGroup();
-  onlineRadBtn = findChild<QRadioButton*>("onlineRadBtn");
-  offlineRadBtn = findChild<QRadioButton*>("offlineRadBtn");
-
-  correctionFileInput = findChild<QLabel*>("correctionFileInput");
-  filePath = findChild<QLabel*>("filePath");
-
-  selectFileButton = findChild<QPushButton*>("selectFileButton");
-  pcapFileInputBtn = findChild<QPushButton*>("pcapFileInputBtn");
-
-  lidarModelBox = findChild<QComboBox*>("lidarModelBox");
-  returnTypeBox = findChild<QComboBox*>("returnTypeBox");
-
-  ipInput = findChild<QLineEdit*>("ipInput");
-  portInput = findChild<QLineEdit*>("portInput");
-
-  init();
-  initConnection();
+  mode_group_ = new QButtonGroup();
+  CreateLidarModelBox();
+  CreateReturnTypeComboBox();
+  InitParam();
+  InitSlotConnect();
 }
 
 AddDialog::~AddDialog() {
-  delete modeGroup;
-  delete onlineRadBtn;
-  delete offlineRadBtn;
-  delete ipInput;
-  delete portInput;
-  delete correctionFileInput;
-  delete filePath;
-  delete selectFileButton;
-  delete pcapFileInputBtn;
-  delete lidarModelBox;
-  delete returnTypeBox;
+  delete mode_group_;
   delete ui;
 }
 
-void AddDialog::init() {
-  modeGroup->addButton(offlineRadBtn, 2);
-  modeGroup->addButton(onlineRadBtn, 1);
-  offlineRadBtn->setChecked(true);
+void AddDialog::InitParam() {
+  mode_group_->addButton(ui->offlineRadBtn, 2);
+  mode_group_->addButton(ui->onlineRadBtn, 1);
+  ui->offlineRadBtn->setChecked(true);
 
-  portInput->setValidator(new QIntValidator(portInput));
-  ipInput->setInputMask("000.000.000.000");
+  ui->portInput->setValidator(new QIntValidator(ui->portInput));
+  ui->ipInput->setInputMask("000.000.000.000");
 
-  correctionFileInput->setEnabled(false);
-  selectFileButton->setEnabled(false);
+  ui->correctionFileInput->setEnabled(false);
+  ui->selectFileButton->setEnabled(false);
 
-  lidarConfig.mode = 2;
-  lidarConfig.ip = "192.168.8.201";
-  lidarConfig.model = "VLP16";
-  lidarConfig.port = 2368;
-  lidarConfig.returnType = 0;
-  lidarConfig.correctionFilePath = " ";
-
-  createLidarModelBox();
-  createReturnTypeComboBox();
+  lidar_config_.mode = 2;
+  lidar_config_.ip = "192.168.8.201";
+  lidar_config_.model = "VLP16";
+  lidar_config_.port = 2368;
+  lidar_config_.returnType = 0;
+  lidar_config_.correctionFilePath = " ";
 }
 
-void AddDialog::createLidarModelBox() {
+void AddDialog::CreateLidarModelBox() {
   QStringList QList;
   QList.clear();
-  QList << tr("VLP16")
-        << tr("VLP32MR")
-        << tr("RS32")
-        << tr("P40P")
+  QList << tr("VLP16") << tr("VLP32MR") << tr("RS32") << tr("P40P")
         << tr("InnovizPro");
-  lidarModelBox->clear();
-  lidarModelBox->addItems(QList);
-  lidarModelBox->setCurrentIndex(0);
+  ui->lidarModelBox->clear();
+  ui->lidarModelBox->addItems(QList);
+  ui->lidarModelBox->setCurrentIndex(0);
 }
 
-void AddDialog::createReturnTypeComboBox() {
+void AddDialog::CreateReturnTypeComboBox() {
   QStringList QList;
   QList.clear();
   QList << tr("Single")
         << tr("Dual");
-  returnTypeBox->clear();
-  returnTypeBox->addItems(QList);
-  returnTypeBox->setCurrentIndex(0);
+  ui->returnTypeBox->clear();
+  ui->returnTypeBox->addItems(QList);
+  ui->returnTypeBox->setCurrentIndex(0);
 }
 
 
-void AddDialog::initConnection() {
-  connect (ipInput, SIGNAL (textChanged(const QString &)), this, SLOT (ipUpdate(const QString &)));
-  connect (portInput, SIGNAL (textChanged(const QString &)), this, SLOT (portUpdate(const QString &)));
-
-  connect(modeGroup, SIGNAL(buttonClicked(const int &)), this, SLOT(modeGroupButtonsClicked(const int &)));
-  connect (selectFileButton,  SIGNAL (clicked ()), this, SLOT (selectFileButtonPressed ()));
-  connect (pcapFileInputBtn,  SIGNAL (clicked ()), this, SLOT (pcapFileInputButtonPressed ()));
-
-  connect(lidarModelBox, SIGNAL(currentIndexChanged(const QString &)),
+void AddDialog::InitSlotConnect() {
+  connect(ui->ipInput, SIGNAL (textChanged(const QString &)),
+           this, SLOT (ipUpdate(const QString &)));
+  connect(ui->portInput, SIGNAL (textChanged(const QString &)),
+           this, SLOT (portUpdate(const QString &)));
+  connect(mode_group_, SIGNAL(buttonClicked(const int &)),
+          this, SLOT(modeGroupButtonsClicked(const int &)));
+  connect(ui->selectFileButton,  SIGNAL (clicked ()),
+           this, SLOT (selectFileButtonPressed ()));
+  connect(ui->pcapFileInputBtn,  SIGNAL (clicked ()),
+           this, SLOT (pcapFileInputButtonPressed ()));
+  connect(ui->lidarModelBox, SIGNAL(currentIndexChanged(const QString &)),
           this, SLOT(lidarModelBoxChanged(const QString &)));
-  connect(returnTypeBox, SIGNAL(currentIndexChanged(const QString &)),
-          this, SLOT(returnTpypeBoxChanged(const QString &)));
-
+  connect(ui->returnTypeBox, SIGNAL(currentIndexChanged(const QString &)),
+          this, SLOT(returnTypeBoxChanged(const QString &)));
 }
 
 void AddDialog::ipUpdate(const QString &input) {
-  lidarConfig.ip = input.toLatin1().data();
+  lidar_config_.ip = input.toLatin1().data();
 }
 
 void AddDialog::portUpdate(const QString &input) {
-  lidarConfig.port = input.toInt();
+  lidar_config_.port = input.toInt();
 }
 
 CLidarConfig AddDialog::getLidarConfig() {
-  return lidarConfig;
+  return lidar_config_;
 }
 
 void AddDialog::modeGroupButtonsClicked(const int &id) {
   if (id == 1) {
-    filePath->setEnabled(false);
-    pcapFileInputBtn->setEnabled(false);
+    ui->filePath->setEnabled(false);
+    ui->pcapFileInputBtn->setEnabled(false);
   } else if (id == 2) {
-    filePath->setEnabled(true);
-    pcapFileInputBtn->setEnabled(true);
+    ui->filePath->setEnabled(true);
+    ui->pcapFileInputBtn->setEnabled(true);
   }
-  lidarConfig.mode = id;
+  lidar_config_.mode = id;
 }
 
 void AddDialog::selectFileButtonPressed() {
   QString fileName = QFileDialog::getOpenFileName(this,
     tr("Select"), "/", tr("Files (*.csv)"));
-  correctionFileInput->setText(fileName);
-  lidarConfig.correctionFilePath = fileName.toStdString();
+  ui->correctionFileInput->setText(fileName);
+  lidar_config_.correctionFilePath = fileName.toStdString();
 }
 
 void AddDialog::pcapFileInputButtonPressed() {
   QString fileName = QFileDialog::getOpenFileName(this,
     tr("Select"), "/", tr("Files (*.pcap)"));
-  filePath->setText(fileName);
-  lidarConfig.pcapFilePath = fileName.toStdString();
+  ui->filePath->setText(fileName);
+  lidar_config_.pcapFilePath = fileName.toStdString();
 }
 
 void AddDialog::lidarModelBoxChanged(const QString &text) {
   std::string model = text.toLatin1().data();
   if (model == "VLP16" || model == "VLP32MR") {
-    correctionFileInput->setEnabled(false);
-    selectFileButton->setEnabled(false);
+    ui->correctionFileInput->setEnabled(false);
+    ui->selectFileButton->setEnabled(false);
   } else {
-    correctionFileInput->setEnabled(true);
-    selectFileButton->setEnabled(true);
+    ui->correctionFileInput->setEnabled(true);
+    ui->selectFileButton->setEnabled(true);
   }
-  lidarConfig.model = model;
+  lidar_config_.model = model;
 }
 
-void AddDialog::returnTpypeBoxChanged(const QString &text) {
+void AddDialog::returnTypeBoxChanged(const QString &text) {
   (void) text;
-  lidarConfig.returnType = returnTypeBox->currentIndex();
+  lidar_config_.returnType = ui->returnTypeBox->currentIndex();
 }

@@ -2,13 +2,13 @@
 // License: Modified BSD Software License Agreement
 
 #include "point_cloud_player_window.h"
-#include <fstream>
-#include <iostream>
 #include <math.h>
-#include <QFileDialog>
-#include <QMessageBox>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <fstream>
+#include <iostream>
+#include <QFileDialog>
+#include <QMessageBox>
 #include <pcl/io/pcd_io.h>
 #include "vtkRenderWindow.h"
 #include "ui_point_cloud_player_window.h"

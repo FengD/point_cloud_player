@@ -1,8 +1,8 @@
 // Copyright (C) 2020 Feng DING, Hirain
 // License: Modified BSD Software License Agreement
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef POINT_CLOUD_PLAYER_WINDOW_H
+#define POINT_CLOUD_PLAYER_WINDOW_H
 
 #include <QMainWindow>
 #include <map>
@@ -25,8 +25,6 @@ namespace lidar_driver {
 class Driver;
 }
 }
-
-
 
 class PointCloudPlayer : public QMainWindow {
   Q_OBJECT
@@ -64,4 +62,4 @@ class PointCloudPlayer : public QMainWindow {
   void repeatButtonPressed();
 };
 
-#endif // MAINWINDOW_H
+#endif  // POINT_CLOUD_PLAYER_WINDOW_H

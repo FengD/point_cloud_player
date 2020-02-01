@@ -1,15 +1,11 @@
+// Copyright (C) 2020 Feng DING, Hirain
+// License: Modified BSD Software License Agreement
+
 #ifndef ADDLIDARDIALOG_H
 #define ADDLIDARDIALOG_H
 
-#include <QWidget>
-#include <QDebug>
-#include <QPushButton>
 #include <QDialog>
-#include <QLineEdit>
-#include <QRadioButton>
 #include <QButtonGroup>
-#include <QLabel>
-#include <QComboBox>
 #include <string>
 #include <iostream>
 
@@ -36,7 +32,8 @@ struct CLidarConfig {
     return *this;
   }
 
-  friend std::ostream &operator<<( std::ostream &output, const CLidarConfig &c ) {
+  friend std::ostream &operator<< (std::ostream &output,
+                                   const CLidarConfig &c) {
     output << "mode: " << c.mode << std::endl;
     output << "pcapFilePath: " << c.pcapFilePath << std::endl;
     output << "ip: " << c.ip << std::endl;
@@ -53,38 +50,31 @@ struct CLidarConfig {
 };
 
 class AddDialog : public QDialog {
-    Q_OBJECT
-private:
-    Ui::Add *ui;
-    QButtonGroup *modeGroup;
-    QRadioButton *onlineRadBtn, *offlineRadBtn;
-    QLineEdit *ipInput, *portInput;
+  Q_OBJECT
+ private:
+  Ui::Add *ui;
+  QButtonGroup *mode_group_;
+  CLidarConfig lidar_config_;
 
-    QLabel *correctionFileInput, *filePath;
-    QPushButton *selectFileButton, *pcapFileInputBtn;
-    CLidarConfig lidarConfig;
+  void InitParam();
+  void CreateLidarModelBox();
+  void CreateReturnTypeComboBox();
+  void InitSlotConnect();
 
-    QComboBox *lidarModelBox, *returnTypeBox;
+ public:
+  explicit AddDialog(QWidget *parent = 0);
+  ~AddDialog();
+  CLidarConfig getLidarConfig();
 
-    void init();
-    void createLidarModelBox();
-    void createReturnTypeComboBox();
-    void initConnection();
-
-public:
-    AddDialog(QWidget *parent = 0);
-    ~AddDialog();
-    CLidarConfig getLidarConfig();
-
-private slots:
-    void ipUpdate(const QString &input);
-    void portUpdate(const QString &input);
-    void modeGroupButtonsClicked(const int &id);
-    void selectFileButtonPressed();
-    void pcapFileInputButtonPressed();
-    void lidarModelBoxChanged(const QString &text);
-    void returnTpypeBoxChanged(const QString &text);
+ private slots:
+  void ipUpdate(const QString &input);
+  void portUpdate(const QString &input);
+  void modeGroupButtonsClicked(const int &id);
+  void selectFileButtonPressed();
+  void pcapFileInputButtonPressed();
+  void lidarModelBoxChanged(const QString &text);
+  void returnTypeBoxChanged(const QString &text);
 };
 
 
-#endif // ADDLIDARDIALOG_H
+#endif  // ADDLIDARDIALOG_H

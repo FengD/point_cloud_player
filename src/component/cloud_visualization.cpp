@@ -5,13 +5,13 @@
 
 namespace itd_lidar {
 
-CloudVisualization::CloudVisualization()
- : pcl::visualization::PCLVisualizer("view") {
+CloudVisualization::CloudVisualization() :
+  pcl::visualization::PCLVisualizer("view") {
   this->addCoordinateSystem(1.0);
 }
 
-CloudVisualization::CloudVisualization(const int &width, const int &height)
-  : pcl::visualization::PCLVisualizer("view") {
+CloudVisualization::CloudVisualization(const int &width, const int &height) :
+  pcl::visualization::PCLVisualizer("view") {
   new (this) CloudVisualization();
   this->setSize(width, height);
 }
