@@ -43,6 +43,7 @@ INCLUDEPATH += \
 
 SOURCES += \
   src/component/cloud_visualization.cpp \
+  src/component/loading_widget.cpp \
   src/main.cpp \
   src/point_cloud_player_window.cpp \
   src/add_dialog.cpp \
@@ -55,6 +56,7 @@ SOURCES += \
 
 HEADERS += \
   include/component/cloud_visualization.h \
+  include/component/loading_widget.h \
   include/point_cloud_player_window.h \
   include/add_dialog.h \
   lidar_driver/include/driver.h \
@@ -66,6 +68,7 @@ HEADERS += \
 
 FORMS += \
   ui/point_cloud_player_window.ui \
+  ui/loading_widget.ui \
   ui/add_dialog.ui
 
 RESOURCES += \

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>822</width>
-    <height>497</height>
+    <width>838</width>
+    <height>518</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>400</y>
+      <y>390</y>
       <width>231</width>
       <height>31</height>
      </rect>
@@ -57,7 +57,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>400</y>
+      <y>390</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -70,7 +70,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>400</y>
+      <y>390</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>400</y>
+      <y>390</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>400</y>
+      <y>390</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -135,7 +135,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>400</y>
+      <y>390</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -161,7 +161,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>400</y>
+      <y>390</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -187,7 +187,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>400</y>
+      <y>390</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -213,7 +213,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>400</y>
+      <y>390</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -232,13 +232,26 @@
      </size>
     </property>
    </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>380</y>
+      <width>801</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="actionMenuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>822</width>
+     <width>838</width>
      <height>22</height>
     </rect>
    </property>
@@ -253,10 +266,10 @@
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

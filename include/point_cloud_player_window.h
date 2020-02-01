@@ -18,7 +18,6 @@
 #include <pcl/common/common.h>
 #include <pcl/common/transforms.h>
 #include "QVTKWidget.h"
-#include "cloud_visualization.h"
 #include "add_dialog.h"
 
 typedef pcl::PointXYZI PointT;
@@ -33,6 +32,9 @@ namespace lidar_driver {
 class Driver;
 }
 }
+
+class LoadingWidget;
+class CloudVisualization;
 
 class PointCloudPlayer : public QMainWindow {
   Q_OBJECT
@@ -52,6 +54,7 @@ private:
   QPushButton *saveBtn, *playBtn, *pauseBtn, *nextBtn, *previousBtn, *repeatBtn;
   QDialog *addDialog;
   QComboBox *playSpeedComboBox;
+  LoadingWidget *loadingWidget;
   CloudVisualization *viewer;
   std::map<int, PointCloudT>  clouds;
   int currentCloudIndex;

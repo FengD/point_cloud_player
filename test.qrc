@@ -6,5 +6,6 @@
         <file>plugins/play.png</file>
         <file>plugins/previous_frame.png</file>
         <file>plugins/save.png</file>
+        <file>plugins/loading.gif</file>
     </qresource>
 </RCC>

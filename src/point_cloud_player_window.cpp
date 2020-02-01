@@ -9,6 +9,7 @@
 #include <pcl/io/pcd_io.h>
 #include "vtkRenderWindow.h"
 #include "ui_point_cloud_player_window.h"
+#include "cloud_visualization.h"
 #include "driver.h"
 
 PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
@@ -18,7 +19,6 @@ PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
 
   cloudViewer = findChild<QVTKWidget*>("cloudView");
   viewer = new CloudVisualization();
-
   menuBar = findChild<QMenuBar*>("actionMenuBar");
   menuFirst = findChild<QMenu*>("menuFirst");
   actionAdd = findChild<QAction*>("add");
@@ -164,7 +164,8 @@ void PointCloudPlayer::updateDisplay(const int &index) {
 }
 
 void PointCloudPlayer::addLidarAction(const CLidarConfig &config) {
-  if (!lidar) {
+  if (lidar) {
+    std::cout << 123131 << std::endl;
     lidar->Stop();
     delete lidar;
     std::map<int, PointCloudT> empty;
