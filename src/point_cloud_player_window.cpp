@@ -20,7 +20,8 @@ PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
   ui_(new Ui::PointCloudPlayer),
   current_cloud_index_(-1),
   clouds_size_(-1),
-  load_cloud_index_(0) {
+  load_cloud_index_(0),
+  play_speed_(-1.0) {
   ui_->setupUi(this);
   viewer_ = new itd_lidar::CloudVisualization();
   InitParam();
@@ -40,31 +41,31 @@ void PointCloudPlayer::InitParam() {
 }
 
 void PointCloudPlayer::InitSlotConnect() {
-  connect (ui_->playSlider, SIGNAL (sliderMoved (const int &)),
-           this, SLOT (playSliderMoved (const int &)));
+  connect(ui_->playSlider, SIGNAL(sliderMoved(const int &)),
+          this, SLOT(playSliderMoved(const int &)));
   connect(ui_->actionMenuBar, SIGNAL(triggered(QAction *)),
           this, SLOT(trigerMenu(QAction *)));
   connect(ui_->playSpeedComboBox, SIGNAL(currentIndexChanged(const QString &)),
           this, SLOT(currentIndexChanged(const QString &)));
-  connect (ui_->saveBtn,  SIGNAL (clicked ()),
-           this, SLOT (saveButtonPressed ()));
-  connect (ui_->playBtn,  SIGNAL (clicked ()),
-           this, SLOT (playButtonPressed ()));
-  connect (ui_->pauseBtn,  SIGNAL (clicked ()),
-           this, SLOT (pauseButtonPressed ()));
-  connect (ui_->nextBtn,  SIGNAL (clicked ()),
-           this, SLOT (nextButtonPressed ()));
-  connect (ui_->previousBtn,  SIGNAL (clicked ()),
-           this, SLOT (previousButtonPressed ()));
-  connect (ui_->repeatBtn,  SIGNAL (clicked ()),
-           this, SLOT (repeatButtonPressed ()));
+  connect(ui_->saveBtn, SIGNAL(clicked()),
+          this, SLOT(saveButtonPressed()));
+  connect(ui_->playBtn, SIGNAL(clicked()),
+          this, SLOT(playButtonPressed()));
+  connect(ui_->pauseBtn, SIGNAL(clicked()),
+          this, SLOT(pauseButtonPressed()));
+  connect(ui_->nextBtn, SIGNAL(clicked()),
+          this, SLOT(nextButtonPressed()));
+  connect(ui_->previousBtn, SIGNAL(clicked()),
+          this, SLOT(previousButtonPressed()));
+  connect(ui_->repeatBtn, SIGNAL(clicked()),
+          this, SLOT(repeatButtonPressed()));
 }
 
 void PointCloudPlayer::CreatePlaySpeedComboBox() {
   QStringList QList;
   QList.clear();
-  QList << tr("x0.1") << tr("x0.5") << tr("x1.0")
-        << tr("x1.5") << tr("x2.0") << tr("x3.0");
+  QList << tr("0.1") << tr("0.5") << tr("1.0")
+        << tr("1.5") << tr("2.0") << tr("3.0");
   ui_->playSpeedComboBox->clear();
   ui_->playSpeedComboBox->addItems(QList);
   ui_->playSpeedComboBox->setCurrentIndex(2);
@@ -77,7 +78,8 @@ void PointCloudPlayer::trigerMenu(QAction* act) {
     if (ret == AddDialog::Rejected) {
       return;
     }
-    AddLidarAction(addDialog.GetLidarConfig());
+    CLidarConfig config = addDialog.GetLidarConfig();
+    AddLidarAction(config);
   }
 }
 
@@ -105,17 +107,19 @@ void PointCloudPlayer::saveButtonPressed() {
 }
 
 void PointCloudPlayer::playButtonPressed() {
-  ui_->playBtn->setEnabled(false);
-  ui_->pauseBtn->setEnabled(true);
-  ui_->nextBtn->setEnabled(false);
-  ui_->previousBtn->setEnabled(false);
+  UpdatePushButtons(false);
 }
 
 void PointCloudPlayer::pauseButtonPressed() {
-  ui_->playBtn->setEnabled(true);
-  ui_->pauseBtn->setEnabled(false);
-  ui_->nextBtn->setEnabled(true);
-  ui_->previousBtn->setEnabled(true);
+  UpdatePushButtons(true);
+}
+
+void PointCloudPlayer::UpdatePushButtons(const bool &isEnable) {
+  // ui_->playBtn->setEnabled(isEnable);
+  // ui_->pauseBtn->setEnabled(!isEnable);
+  ui_->nextBtn->setEnabled(isEnable);
+  ui_->previousBtn->setEnabled(isEnable);
+  ui_->saveBtn->setEnabled(isEnable);
 }
 
 void PointCloudPlayer::nextButtonPressed() {
@@ -138,11 +142,11 @@ void PointCloudPlayer::previousButtonPressed() {
   UpdateDisplay(current_cloud_index_);
 }
 
-void PointCloudPlayer::repeatButtonPressed() {
+void PointCloudPlayer::repeatButtonPressed() {}
 
+void PointCloudPlayer::currentIndexChanged(const QString &text) {
+  play_speed_ = text.toFloat();
 }
-
-void PointCloudPlayer::currentIndexChanged(const QString &text) {}
 
 void PointCloudPlayer::UpdateDisplay(const int &index) {
   ui_->frameNb->display(index + 1);
@@ -152,8 +156,12 @@ void PointCloudPlayer::UpdateDisplay(const int &index) {
 }
 
 void PointCloudPlayer::AddLidarAction(const CLidarConfig &config) {
+  if (config.mode == 2 && config.pcapFilePath == "") {
+    QMessageBox::about(NULL, "Error", "No PCAP given!");
+    return;
+  }
+
   if (NULL == lidar_) {
-    std::cout << 123131 << std::endl;
     lidar_->Stop();
     delete lidar_;
     std::map<int, PointCloudT> empty;
@@ -180,14 +188,14 @@ void PointCloudPlayer::AddLidarAction(const CLidarConfig &config) {
 
 void PointCloudPlayer::ButtonsEnabled(const bool &isEnable) {
   ui_->saveBtn->setEnabled(isEnable);
-  ui_->playBtn->setEnabled(isEnable);
-  ui_->pauseBtn->setEnabled(isEnable);
+  // ui_->playBtn->setEnabled(isEnable);
+  // ui_->pauseBtn->setEnabled(isEnable);
   ui_->nextBtn->setEnabled(isEnable);
   ui_->previousBtn->setEnabled(isEnable);
-  ui_->repeatBtn->setEnabled(isEnable);
+  // ui_->repeatBtn->setEnabled(isEnable);
   ui_->playSlider->setEnabled(isEnable);
   ui_->frameNb->setEnabled(isEnable);
-  ui_->playSpeedComboBox->setEnabled(isEnable);
+  // ui_->playSpeedComboBox->setEnabled(isEnable);
 }
 
 void PointCloudPlayer::LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp) {
@@ -199,6 +207,7 @@ void PointCloudPlayer::LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::Poin
     current_cloud_index_ = 0;
     clouds_size_ = load_cloud_index_;
     ButtonsEnabled(true);
+    UpdatePushButtons(true);
     viewer_->removeAllPointClouds();
     viewer_->addPointCloud<pcl::PointXYZI>(clouds_[current_cloud_index_].makeShared(), "cloud");
     UpdateDisplay(current_cloud_index_);

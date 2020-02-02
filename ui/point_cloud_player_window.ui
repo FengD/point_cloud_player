@@ -36,7 +36,7 @@
    </widget>
    <widget class="QSlider" name="playSlider">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -52,7 +52,7 @@
    </widget>
    <widget class="QLCDNumber" name="frameNb">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -65,7 +65,7 @@
    </widget>
    <widget class="QPushButton" name="saveBtn">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -91,7 +91,7 @@
    </widget>
    <widget class="QComboBox" name="playSpeedComboBox">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -104,7 +104,7 @@
    </widget>
    <widget class="QPushButton" name="playBtn">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -130,7 +130,7 @@
    </widget>
    <widget class="QPushButton" name="pauseBtn">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -156,7 +156,7 @@
    </widget>
    <widget class="QPushButton" name="nextBtn">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -182,7 +182,7 @@
    </widget>
    <widget class="QPushButton" name="previousBtn">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -208,7 +208,7 @@
    </widget>
    <widget class="QPushButton" name="repeatBtn">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -285,7 +285,7 @@
     <enum>BottomToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

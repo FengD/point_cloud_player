@@ -43,7 +43,7 @@ struct CLidarConfig {
     output << "port: " << c.port << std::endl;
     output << "model: " << c.model << std::endl;
     output << "returnType: " << c.returnType << std::endl;
-    output << "correctionFilePath: " << c.correctionFilePath << std::endl;
+    output << "correctionFilePath: " << c.correctionFilePath;
     return output;
   }
 

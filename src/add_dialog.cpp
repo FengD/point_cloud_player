@@ -41,7 +41,7 @@ void AddDialog::InitParam() {
   lidar_config_.model = "VLP16";
   lidar_config_.port = 2368;
   lidar_config_.returnType = 0;
-  lidar_config_.correctionFilePath = " ";
+  // lidar_config_.correctionFilePath = " ";
 }
 
 void AddDialog::CreateLidarModelBox() {

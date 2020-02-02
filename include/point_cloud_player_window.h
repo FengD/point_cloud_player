@@ -38,6 +38,7 @@ class PointCloudPlayer : public QMainWindow {
   int current_cloud_index_;
   int clouds_size_;
   int load_cloud_index_;
+  float play_speed_;
   itd_lidar::CloudVisualization *viewer_;
   itd_lidar::lidar_driver::Driver *lidar_;
   std::map<int, PointCloudT>  clouds_;
@@ -48,6 +49,7 @@ class PointCloudPlayer : public QMainWindow {
   void UpdateDisplay(const int &index);
   void AddLidarAction(const CLidarConfig &config);
   void ButtonsEnabled(const bool &isEnable);
+  void UpdatePushButtons(const bool &isEnable);
   void LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud,
                      int timestamp);
 
