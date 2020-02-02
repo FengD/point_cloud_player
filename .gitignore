@@ -5,3 +5,4 @@ ui_*
 moc_*
 qrc_build.cpp
 point_cloud_player
+*.tar.gz
