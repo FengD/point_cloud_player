@@ -1,42 +1,34 @@
-#### Multiple Lidar Point Cloud Display and Calibration Tool
+#### Point Cloud Player
 
 ## Build and Execute
 ```
-Generate <Makefile file>. `qmake test.pro`
+Generate <Makefile file>. `qmake build.pro`
 Build. `Make`
-Execute. `./lidar_calibration`
+Execute. `./point_cloud_player`
 ```
 
 ## How to use
 1. Initial page.
-![Image 1](images/1_initPage.png)
-2. Click the "Add Lidar" menu bar.
-![Image 2](images/2_addLidarAction.png)
-3. Add Lidars. The name should be unique. Make sure that the ip and port is correct, otherwise the cloud will not be displayed. The "P40P" should select its own correction file.
-![Image 3](images/3_addLidarDialog.png)
-4. Switch between added Lidars.
-![Image 4](images/4_addedLidarSelect.png)
-5. Connect or disconnect.
-![Image 5](images/5_connect.png)
-6. Modify the coordinate and generate a calibration file in the selected path.
-![Image 6](images/6_generateCalibrationFile.png)
+![Image 1](images/1_init.png)
+2. Click the "Add" menu bar.
+![Image 2](images/2_add.png)
+3. Add a lidar(online) or a pcap file(offline).
+![Image 3](images/3_actions.png)
 
 ### Version 1.0
 ```
- * Support the model of "VLP16" and of "P40P".
- * Display multiple lidar point clouds.
- * Change the color and the coordinate of point cloud center for each cloud.
- * Generate the calibration file in a selected path.
+ * Support the model "VLP16", "P40P", "RS16", "RS32" and "VLP32MR".
+ * Display lidar point clouds.
+ * Save one frame as PCD file(binary mode).
+ * The cloud cloud be display forward or backward.
 
  BUG:
- * If one of the lidars is connected. A new "Add Lidar" action will cause the crush of the application. So do the connection after all the lidars have been added.
-
- * Straight and quick action will also crush the application.
+ * Each time needs to reopen for open a new file.
 ```
 
-### Version 1.1 (On going)
+### Version 2.0 (On going)
 ```
- * Support the loading of the calibration file.
- * Support the automatic calibration of the ground plan.
+ * Play and pause with multipule speed.
+ * Online Mode.(not sure if it is necessary)
  * Bug fixing.
 ```
