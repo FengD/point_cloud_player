@@ -84,8 +84,8 @@ void PointCloudPlayer::trigerMenu(QAction* act) {
 }
 
 void PointCloudPlayer::playSliderMoved(const int &value) {
-  current_cloud_index_ = value;
-  UpdateDisplay(value);
+  current_cloud_index_ = value - 1;
+  UpdateDisplay(current_cloud_index_);
 }
 
 void PointCloudPlayer::saveButtonPressed() {
@@ -133,7 +133,7 @@ void PointCloudPlayer::nextButtonPressed() {
 }
 
 void PointCloudPlayer::previousButtonPressed() {
-  if (current_cloud_index_ > 0) {
+  if (current_cloud_index_ >= 0) {
     current_cloud_index_--;
     ui_->nextBtn->setEnabled(true);
   } else {
@@ -150,7 +150,7 @@ void PointCloudPlayer::currentIndexChanged(const QString &text) {
 
 void PointCloudPlayer::UpdateDisplay(const int &index) {
   ui_->frameNb->display(index + 1);
-  ui_->playSlider->setValue(index);
+  ui_->playSlider->setValue(index + 1);
   viewer_->updatePointCloud<pcl::PointXYZI>(clouds_[index].makeShared(), "cloud");
   viewer_->spinOnce(0.0000000000001);
 }
@@ -168,6 +168,8 @@ void PointCloudPlayer::AddLidarAction(const CLidarConfig &config) {
     clouds_.clear();
     clouds_.swap(empty);
     load_cloud_index_ = 0;
+    clouds_size_ = 0;
+    current_cloud_index_ = -1;
   }
 
   float cutAngle = -1.0;
@@ -199,9 +201,8 @@ void PointCloudPlayer::ButtonsEnabled(const bool &isEnable) {
 }
 
 void PointCloudPlayer::LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI>> cloud, int timestamp) {
-  clouds_[++load_cloud_index_] = *cloud;
+
   if (timestamp == -10) {
-    load_cloud_index_--;
     ui_->playSlider->setMaximum(load_cloud_index_);
     ui_->playSlider->setMinimum(1);
     current_cloud_index_ = 0;
@@ -211,5 +212,9 @@ void PointCloudPlayer::LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::Poin
     viewer_->removeAllPointClouds();
     viewer_->addPointCloud<pcl::PointXYZI>(clouds_[current_cloud_index_].makeShared(), "cloud");
     UpdateDisplay(current_cloud_index_);
+    return;
   }
+
+  clouds_[load_cloud_index_] = *cloud;
+  load_cloud_index_++;
 }
