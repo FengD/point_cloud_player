@@ -21,7 +21,7 @@ struct CLidarConfig {
   int port;
   std::string model;
   int returnType;
-  std::string correctionFilePath;
+  std::vector<std::string> correctionFilesPath;
   CLidarConfig& operator= (const CLidarConfig& config) {
     mode = config.mode;
     pcapFilePath = config.pcapFilePath;
@@ -30,7 +30,7 @@ struct CLidarConfig {
     port = config.port;
     model = config.model;
     returnType = config.returnType;
-    correctionFilePath = config.correctionFilePath;
+    correctionFilesPath = config.correctionFilesPath;
     return *this;
   }
 
@@ -42,8 +42,11 @@ struct CLidarConfig {
     output << "groupIp: " << c.groupIp << std::endl;
     output << "port: " << c.port << std::endl;
     output << "model: " << c.model << std::endl;
-    output << "returnType: " << c.returnType << std::endl;
-    output << "correctionFilePath: " << c.correctionFilePath;
+    output << "returnType: " << c.returnType;
+    output << "correctionFilesPath: ";
+    for (size_t i = 0; i < c.correctionFilesPath.size(); i++) {
+      output << c.correctionFilesPath[i] << "; ";
+    }
     return output;
   }
 

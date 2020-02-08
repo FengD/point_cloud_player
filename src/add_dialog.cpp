@@ -112,10 +112,15 @@ void AddDialog::modeGroupButtonsClicked(const int &id) {
 }
 
 void AddDialog::selectFileButtonPressed() {
-  QString fileName = QFileDialog::getOpenFileName(this,
+  QStringList fileNames = QFileDialog::getOpenFileNames(this,
     tr("Select"), "/", tr("Files (*.csv)"));
-  ui->correctionFileInput->setText(fileName);
-  lidar_config_.correctionFilePath = fileName.toStdString();
+  QString files;
+  for(int i = 0; i< fileNames.size();++i) {
+    QString fileName = fileNames.at(i);
+    files += fileName + ";";
+    lidar_config_.correctionFilesPath.push_back(fileName.toStdString());
+  }
+  ui->correctionFileInput->setText(files);
 }
 
 void AddDialog::pcapFileInputButtonPressed() {

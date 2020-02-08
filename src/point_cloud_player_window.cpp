@@ -162,27 +162,27 @@ void PointCloudPlayer::AddLidarAction(const CLidarConfig &config) {
   }
 
   if (NULL == lidar_) {
-    lidar_->Stop();
+    // lidar_->Stop();
     delete lidar_;
-    std::map<int, PointCloudT> empty;
-    clouds_.clear();
-    clouds_.swap(empty);
-    load_cloud_index_ = 0;
-    clouds_size_ = 0;
-    current_cloud_index_ = -1;
   }
+
+  std::map<int, PointCloudT> empty;
+  clouds_.clear();
+  clouds_.swap(empty);
+  load_cloud_index_ = 0;
+  clouds_size_ = 0;
+  current_cloud_index_ = -1;
 
   float cutAngle = -1.0;
   int direction = -1;
   int version = -1;
-  std::vector<std::string> correctionFileList;
 
   ButtonsEnabled(false);
 
   lidar_ = new itd_lidar::lidar_driver::Driver(
     config.ip, config.groupIp, config.port, config.model,
     config.returnType, direction, version,
-    correctionFileList, cutAngle,
+    config.correctionFilesPath, cutAngle,
     boost::bind(&PointCloudPlayer::LidarCallback, this, _1, _2),
     config.pcapFilePath);
   lidar_->Start();
