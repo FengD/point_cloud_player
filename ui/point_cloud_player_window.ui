@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>820</width>
-    <height>518</height>
+    <height>115</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,16 +24,6 @@
    </size>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QVTKWidget" name="cloudViewer">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>821</width>
-      <height>371</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QSlider" name="playSlider">
     <property name="enabled">
      <bool>false</bool>
@@ -41,7 +31,7 @@
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>390</y>
+      <y>20</y>
       <width>421</width>
       <height>31</height>
      </rect>
@@ -57,7 +47,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>390</y>
+      <y>20</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -70,7 +60,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>20</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -96,7 +86,7 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>390</y>
+      <y>20</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -109,7 +99,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>390</y>
+      <y>20</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -135,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>390</y>
+      <y>20</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -161,7 +151,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>390</y>
+      <y>20</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -187,7 +177,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>390</y>
+      <y>20</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -213,7 +203,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>390</y>
+      <y>20</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -236,7 +226,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>370</y>
+      <y>0</y>
       <width>821</width>
       <height>20</height>
      </rect>
@@ -252,7 +242,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>430</y>
+      <y>60</y>
       <width>231</width>
       <height>21</height>
      </rect>
@@ -268,7 +258,7 @@
      <x>0</x>
      <y>0</y>
      <width>820</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFirst">
@@ -309,13 +299,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QVTKWidget</class>
-   <extends>QWidget</extends>
-   <header>QVTKWidget.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../build.qrc"/>
  </resources>

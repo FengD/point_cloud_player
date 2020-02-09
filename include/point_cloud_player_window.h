@@ -10,6 +10,7 @@
 #include <pcl/common/transforms.h>
 #include <QMainWindow>
 #include <map>
+#include <pcl/visualization/cloud_viewer.h>
 #include "add_dialog.h"
 
 typedef pcl::PointXYZI PointT;
@@ -20,7 +21,7 @@ class PointCloudPlayer;
 }
 
 namespace itd_lidar {
-class CloudVisualization;
+// class CloudVisualization;
 namespace lidar_driver {
 class Driver;
 }
@@ -39,7 +40,7 @@ class PointCloudPlayer : public QMainWindow {
   int clouds_size_;
   int load_cloud_index_;
   float play_speed_;
-  itd_lidar::CloudVisualization *viewer_;
+  pcl::visualization::CloudViewer *viewer_;
   itd_lidar::lidar_driver::Driver *lidar_;
   std::map<int, PointCloudT>  clouds_;
 

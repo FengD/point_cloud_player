@@ -10,9 +10,9 @@
 #include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "vtkRenderWindow.h"
+// #include "vtkRenderWindow.h"
 #include "ui_point_cloud_player_window.h"
-#include "cloud_visualization.h"
+// #include "cloud_visualization.h"
 #include "driver.h"
 
 PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
@@ -23,7 +23,8 @@ PointCloudPlayer::PointCloudPlayer(QWidget *parent) :
   load_cloud_index_(0),
   play_speed_(-1.0) {
   ui_->setupUi(this);
-  viewer_ = new itd_lidar::CloudVisualization();
+  viewer_ = new pcl::visualization::CloudViewer("point cloud player");
+
   InitParam();
   InitSlotConnect();
 }
@@ -34,8 +35,8 @@ PointCloudPlayer::~PointCloudPlayer() {
 }
 
 void PointCloudPlayer::InitParam() {
-  viewer_->setSize(ui_->cloudViewer->width(), ui_->cloudViewer->height());
-  ui_->cloudViewer->SetRenderWindow(viewer_->getRenderWindow());
+  // viewer_->setSize(1000, ui_->cloudViewer->height());
+  // ui_->cloudViewer->SetRenderWindow(viewer_->getRenderWindow());
   CreatePlaySpeedComboBox();
   ButtonsEnabled(false);
 }
@@ -151,8 +152,9 @@ void PointCloudPlayer::currentIndexChanged(const QString &text) {
 void PointCloudPlayer::UpdateDisplay(const int &index) {
   ui_->frameNb->display(index + 1);
   ui_->playSlider->setValue(index + 1);
-  viewer_->updatePointCloud<pcl::PointXYZI>(clouds_[index].makeShared(), "cloud");
-  viewer_->spinOnce(0.0000000000001);
+  // viewer_->updatePointCloud<pcl::PointXYZI>(clouds_[index].makeShared(), "cloud");
+  viewer_->showCloud(clouds_[index].makeShared());
+  // viewer_->spinOnce(0.0000000000001);
 }
 
 void PointCloudPlayer::AddLidarAction(const CLidarConfig &config) {
@@ -209,8 +211,8 @@ void PointCloudPlayer::LidarCallback(boost::shared_ptr<pcl::PointCloud<pcl::Poin
     clouds_size_ = load_cloud_index_;
     ButtonsEnabled(true);
     UpdatePushButtons(true);
-    viewer_->removeAllPointClouds();
-    viewer_->addPointCloud<pcl::PointXYZI>(clouds_[current_cloud_index_].makeShared(), "cloud");
+    // viewer_->removeAllPointClouds();
+    // viewer_->addPointCloud<pcl::PointXYZI>(clouds_[current_cloud_index_].makeShared(), "cloud");
     UpdateDisplay(current_cloud_index_);
     return;
   }

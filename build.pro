@@ -15,7 +15,7 @@ CONFIG += static
 
 QMAKE_CXXFLAGS += -std=c++14
 
-LIBS += \
+LIBS += -L/usr/local/lib \
   -lboost_system \
   -lboost_filesystem \
   -lboost_thread \
@@ -25,24 +25,15 @@ LIBS += \
   -lpcl_kdtree \
   -lpcl_search \
   -lpcap \
-  -lyaml-cpp \
-  -lvtkGUISupportQt-7.1 \
-  -lvtkCommonCore-7.1 \
-  -lvtkRenderingCore-7.1 \
-  -lvtkCommonDataModel-7.1 \
-  -lvtkCommonMath-7.1
+  -lyaml-cpp
 
 
 INCLUDEPATH += \
   include \
-  include/component \
-  lidar_driver/include \
-  /usr/local/include/pcl-1.8 \
-  /usr/include/eigen3 \
-  /usr/local/include/vtk-7.1
+  /usr/include/vtk-6.2/ \
+  lidar_driver/include
 
 SOURCES += \
-  src/component/cloud_visualization.cpp \
   src/main.cpp \
   src/point_cloud_player_window.cpp \
   src/add_dialog.cpp \
@@ -54,7 +45,6 @@ SOURCES += \
   lidar_driver/src/raw_data_factory.cpp
 
 HEADERS += \
-  include/component/cloud_visualization.h \
   include/point_cloud_player_window.h \
   include/add_dialog.h \
   lidar_driver/include/driver.h \
