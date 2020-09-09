@@ -9,11 +9,11 @@ Execute. `./point_cloud_player`
 
 ## How to use
 1. Initial page.
-![Image 1](https://github.com/FengD/point_cloud_player/blob/master/images/1_init.png)
+![Image 1](https://github.com/FengD/point_cloud_player/raw/master/images/1_init.png)
 2. Click the "Add" menu bar.
-![Image 2](https://github.com/FengD/point_cloud_player/blob/master/images/2_add.png)
+![Image 2](https://github.com/FengD/point_cloud_player/raw/master/images/2_add.png)
 3. Add a lidar(online) or a pcap file(offline).
-![Image 3](https://github.com/FengD/point_cloud_player/blob/master/images/3_actions.png)
+![Image 3](https://github.com/FengD/point_cloud_player/raw/master/images/3_actions.png)
 
 ### Version 1.0
 ```
